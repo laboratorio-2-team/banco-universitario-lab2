@@ -7,8 +7,33 @@ export const lightTheme: Theme = createTheme({
     ...defaultTheme,
     palette: createPalette({
         mode: 'light',
-        secondary:{
-            main: "#0000"
+        text: {
+            primary: '#053436',
+            disabled: 'rgba(8, 95, 99, 0.05)',
+            secondary: '#344767'
         },
+        primary:{
+            "50":"#085F63",
+            "300":"#779C9D",
+            main: "#085F63",
+            "800":"#053436",
+        },
+        secondary:{
+            "300":"#9DC0BE",
+            main: "#49BEB7",
+        },
+
+        error: {
+            "300":"#FE5C73",
+            main: "#F93652"
+        },
+        success: {
+            main: "#0AB087",
+        },
+        grey:{
+            "300": "#7B809A",
+            "500": "#F2F4F7",
+            "600": "#FFFFFF"
+        }
     })
 });
