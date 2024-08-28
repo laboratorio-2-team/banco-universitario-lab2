@@ -1,6 +1,6 @@
 import { TextField } from '@mui/material';
 import { FormikHelpers, useFormik } from 'formik'
-import { ButtonDemo } from '../ButtonDemo';
+import { CustomButton } from '../CustomButton';
 import { FromValues, initialValues, validationSchema } from '../../schemas';
 
 const onSubmit = (values: FromValues, formikHelpers: FormikHelpers<FromValues>) => {
@@ -10,7 +10,7 @@ const onSubmit = (values: FromValues, formikHelpers: FormikHelpers<FromValues>) 
 
 export const Form = () => {
 
-    const { errors, touched, values, handleSubmit,  handleBlur, handleChange } = useFormik({
+    const { errors, touched, values, handleSubmit, handleBlur, handleChange } = useFormik({
         initialValues,
         validationSchema,
         onSubmit,
@@ -48,12 +48,14 @@ export const Form = () => {
                 />
             </form>
 
-            <ButtonDemo fullWidth
-             variant='contained'
-             type='submit'
-             >
+            <CustomButton
+                fullWidth
+                color='secondary'
+                variant='text'
+                type='submit'
+            >
                 Submit
-             </ButtonDemo>
+            </CustomButton>
         </div>
     )
 }

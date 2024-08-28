@@ -1,2 +1,2 @@
-export * from './ButtonDemo'
+export * from './CustomButton'
 export * from './FormDemo'

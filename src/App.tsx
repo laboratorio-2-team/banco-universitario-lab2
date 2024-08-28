@@ -10,7 +10,7 @@ import './styles/App.css'
 
 
 function App() {
-  const [isDarkTheme] = useState(true);
+  const [isDarkTheme] = useState(false);
   
   return (
     <ThemeProvider theme={isDarkTheme ? darkTheme : lightTheme}>
