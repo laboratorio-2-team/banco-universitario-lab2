@@ -1,7 +1,7 @@
 import { AppBar, Button, Container, Grid, Toolbar, Typography } from "@mui/material"
 import PhoneInTalkIcon from '@mui/icons-material/PhoneInTalk';
 import MeetingRoomIcon from '@mui/icons-material/MeetingRoom';
-
+import { Link } from 'react-router-dom';
 export const HeaderLanding = () => {
   return (
     <AppBar sx={{background:'#FFFFFF'}} >
@@ -14,7 +14,7 @@ export const HeaderLanding = () => {
           <MeetingRoomIcon sx={{color:"#9C9C9C"}}/>
           <Typography color={"#9C9C9C"}>Inicia Sesión</Typography>
         </Grid>
-        <Button variant="contained" sx={{backgroundColor:"#085f63"}}>Registrate</Button>
+        <Button variant="contained" component={Link} to="/register" sx={{backgroundColor:"#085f63"}}>Registrate</Button>
       </Toolbar>
      </Container>
     </AppBar>

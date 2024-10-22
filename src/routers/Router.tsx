@@ -1,5 +1,6 @@
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import homeRouter from './homeRouter';
+import authRouting from './AuthRouting'; 
 import { MainLayout } from '../layouts';
 
 const router = createBrowserRouter([
@@ -8,6 +9,7 @@ const router = createBrowserRouter([
     Component: MainLayout,
     children: [
       ...homeRouter,
+      ...authRouting,
     ]
   },
 ]);
