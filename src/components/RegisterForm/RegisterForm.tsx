@@ -14,6 +14,11 @@ export const RegisterForm = () => {
     fontSize: "1.4rem",
   };
 
+  const linkTextStyle = {
+    color: "#49BEB7",
+    fontSize: "1rem",
+    fontWeight: "bold",
+  };
   const paperStyle = {
     padding: 30,
     width: "80%",
@@ -198,11 +203,7 @@ export const RegisterForm = () => {
               </Button>
               <Typography style={textstyle}>
                 ¿Ya tienes una cuenta? Inicia Sesión{" "}
-                <Typography
-                  component={Link}
-                  to="/login"
-                  sx={{ color: "#49BEB7" }}
-                >
+                <Typography component={Link} to="/login" style={linkTextStyle}>
                   aquí
                 </Typography>{" "}
               </Typography>
