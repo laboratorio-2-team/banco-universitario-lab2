@@ -8,7 +8,7 @@ import {
   FormControlLabel,
 } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
-import backgroundImage from "../../assets/Background-Image.png";
+import backgroundImage from "@assets/Background-Image.png";
 import { GlobalStyles } from "@mui/material";
 import { Link } from "react-router-dom";
 import { useState } from "react";

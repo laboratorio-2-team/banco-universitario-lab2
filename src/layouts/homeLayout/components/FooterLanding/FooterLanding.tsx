@@ -1,6 +1,6 @@
 import { Avatar, Grid, Paper, Typography } from "@mui/material";
 import { useTheme } from "styled-components";
-import footerimage from "../../assets/Footer_Image.png";
+import footerimage from "../../../../assets/Footer_Image.png";
 import FacebookIcon from '@mui/icons-material/Facebook';
 import InstagramIcon from '@mui/icons-material/Instagram';
 import TwitterIcon from '@mui/icons-material/Twitter';

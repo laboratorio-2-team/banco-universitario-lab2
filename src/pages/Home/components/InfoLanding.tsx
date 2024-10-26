@@ -1,6 +1,6 @@
 import { Grid, Paper } from "@mui/material"
-import imagen from "../../assets/News_letter.png"
-import { CardInfoLanding } from "../CardInfoLanding";
+import imagen from "@assets/News_letter.png"
+import { CardInfoLanding } from "@components/CardInfoLanding";
 
 export const InfoLanding = () => {
   return (

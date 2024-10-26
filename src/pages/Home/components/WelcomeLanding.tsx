@@ -1,7 +1,7 @@
 import { Grid, Paper, Typography } from "@mui/material"
-import imagen from "../../assets/thought-catalog-23KdVfc395A-unsplash.png"
-import v6 from "../../assets/v6.svg"
-import { CardLanding } from "../CardLanding"
+import imagen from "@assets/thought-catalog-23KdVfc395A-unsplash.png"
+import v6 from "@assets/v6.svg"
+import { CardLanding } from "@components/CardLanding"
 import { useTheme } from "styled-components"
 export const WelcomeLanding = () => {
     const theme = useTheme();

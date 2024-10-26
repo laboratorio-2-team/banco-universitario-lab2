@@ -1,10 +1,10 @@
 import { Grid, Paper, Typography } from "@mui/material"
 import { useTheme } from "styled-components";
-import v6 from '../../assets/v6.svg'
-import v7 from '../../assets/v7.svg'
-import v8 from '../../assets/v8.svg'
-import img1 from '../../assets/christina-wocintechchat-com-eZ8g_7Sh0J0-unsplash 1.png'
-import img2 from '../../assets/krakenimages-376KN_ISplE-unsplash 1.png'
+import v6 from '@assets/v6.svg'
+import v7 from '@assets/v7.svg'
+import v8 from '@assets/v8.svg'
+import img1 from '@assets/christina-wocintechchat-com-eZ8g_7Sh0J0-unsplash 1.png'
+import img2 from '@assets/krakenimages-376KN_ISplE-unsplash 1.png'
 export const AboutLanding = () => {
     const theme = useTheme();
     const titlestyle = {fontFamily:theme.typography.fontFamily, color:"#053436", fontSize:'1.4rem'};

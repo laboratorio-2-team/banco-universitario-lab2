@@ -9,8 +9,8 @@ const homeRouter: RouteObject[] = [
       {
         path: "",
         lazy: async () => {
-          const { Home } = await import("@pages/Home/index")
-          return { Component: Home, }
+          const { HomePage } = await import("@pages/Home")
+          return { Component: HomePage, }
         },
       }
     ],

@@ -1,7 +1,7 @@
 import { Grid, Paper, Typography, TextField, Button } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import { GlobalStyles } from "@mui/material";
-import img1 from "../../assets/coverRegister.png";
+import img1 from "@assets/coverRegister.png";
 import { Link } from "react-router-dom";
 export const RegisterForm = () => {
   const theme = useTheme(); // Acceso al tema de Material UI
