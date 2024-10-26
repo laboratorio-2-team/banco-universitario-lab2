@@ -27,6 +27,7 @@ export const Form = () => {
                     id='email'
                     label='Email'
                     name='email'
+                    type='email'
                     value={email}
                     onChange={handleChange}
                     onBlur={handleBlur}

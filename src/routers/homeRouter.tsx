@@ -1,13 +1,20 @@
+import { HomeLayouts } from "@layouts";
 import { RouteObject } from "react-router-dom";
 
 const homeRouter: RouteObject[] = [
   {
-    path: "/",
-    children: [],
-    lazy: async () => {
-      const { Home } = await import("../pages/Home")
-      return { Component: Home, }
-    },
+    path: "",
+    Component: HomeLayouts,
+    children: [
+      {
+        path: "",
+        lazy: async () => {
+          const { Home } = await import("@pages/Home/index")
+          return { Component: Home, }
+        },
+      }
+    ],
+
   },
 ]
 

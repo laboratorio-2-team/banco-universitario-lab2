@@ -20,6 +20,7 @@
     "formik": "^2.4.6",
     "localforage": "^1.10.0",
     "match-sorter": "^6.3.4",
+    "path-browserify": "^1.0.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-hot-toast": "^2.4.1",
@@ -29,6 +30,7 @@
     "yup": "^1.4.0"
   },
   "devDependencies": {
+    "@types/path-browserify": "^1.0.3",
     "@types/react": "^18.2.66",
     "@types/react-dom": "^18.2.22",
     "@types/styled-components": "^5.1.34",

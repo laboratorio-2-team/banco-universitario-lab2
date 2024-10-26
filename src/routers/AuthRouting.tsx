@@ -1,6 +1,6 @@
 import { RouteObject } from "react-router-dom";
 
-const authRouting: RouteObject[] = [
+export const authRouting: RouteObject[] = [
   {
     path: "/",
     children: [
@@ -22,5 +22,3 @@ const authRouting: RouteObject[] = [
     
   },
 ]
-
-export default authRouting;
