@@ -63,7 +63,7 @@ y seguras.`
         });
     }
     return (
-        <Paper sx={{ width: '100vw', maxWidth: '100vw', marginLeft: 'calc(50% - 50vw)', marginBottom: '20px', backgroundColor: '#F7F7F7' }}>
+        <Paper className="w-full" sx={{ marginLeft: 'calc(50% - 50vw)', marginBottom: '20px', backgroundColor: '#F7F7F7' }}>
             <Grid container spacing={3}>
                 <Grid item xs={12} >
                     <Grid container direction={'row'} sx={{ display: 'flex', justifyContent: 'center' }}>

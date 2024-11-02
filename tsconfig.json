@@ -16,6 +16,8 @@
       "@layouts": ["./src/layouts"],
       "@assets": ["./src/assets"],
       "@assets/*": ["./src/assets/*"],
+      "@hooks": ["./src/utils/hooks"],
+      "@hooks/*": ["./src/utils/hooks/*"],
     },
 
     /* Bundler mode */
