@@ -32,7 +32,7 @@ financiera esté siempre segura.`
   ];
 
   return (
-    <Card elevation={2} style={{height:'40vh', alignContent:'center', padding:10, backgroundColor:color, maxWidth:'20vw', marginLeft:'25%'}}>
+    <Card elevation={2} style={{height:'40vh', alignContent:'center', padding:20, backgroundColor:color, maxWidth:'20vw', marginLeft:'25%', marginTop:'2vh'}}>
         <div style={{ display:'flex', justifyContent:'center' }}>
         <img src={svgList[svg]}/>
         </div>

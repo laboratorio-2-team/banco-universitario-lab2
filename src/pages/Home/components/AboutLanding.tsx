@@ -1,4 +1,4 @@
-import { Grid, Paper, Typography } from "@mui/material"
+import { Paper, Typography, Container } from "@mui/material"
 import { useTheme } from "styled-components";
 import v6 from '@assets/v6.svg'
 import v7 from '@assets/v7.svg'
@@ -20,34 +20,33 @@ la calidad de atención al cliente y nuestro compromiso con la educación
 y el desarrollo social.`
     ];
     return (
-
-        <Paper className="w-full" sx={{ marginLeft: 'calc(50% - 50vw)', marginBottom: '20px', backgroundColor: '#F7F7F7' }}>
-            <Grid container spacing={3}>
-                <Grid item xs={6}>
-                    <img src={img2} style={{ marginLeft: '50%', marginBottom: '-30vh' }} />
-                    <img src={img1} style={{ marginLeft: '10%' }} />
-                </Grid>
-                <Grid item xs={6}>
-                    <Grid container direction={'row'}>
+        <Paper className="w-screen" sx={{ marginLeft: 'calc(50% - 50vw)', marginBottom: '20px', backgroundColor: '#F7F7F7' }}>
+            <Container style={{display:'grid', gridTemplateColumns:'1fr 1fr'}}>
+                <Container>
+                    <img src={img2} style={{ marginLeft: '2vw', marginBottom: '-30vh' }} />
+                    <img src={img1} style={{ marginLeft: '-10vw' }} />
+                </Container>
+                <Container>
+                    <Container style={{display:'grid', gridTemplateColumns:'0.15fr 1fr', marginTop:'3vh'}}>
                         <img src={v6} />
-                        <Typography style={titlestyle} padding={2}>Sobre Nosotros</Typography>
-                    </Grid>
-                    <Grid container direction={'row'}>
+                        <Typography style={titlestyle} >Sobre Nosotros</Typography>
+                    </Container>
+                    <Container style={{display:'grid', gridTemplateColumns:'0.15fr 1fr', marginTop:'3vh'}}>
                         <img src={v7} />
-                        <Typography style={titlestyle} padding={2}>Nuestra Misión</Typography>
-                    </Grid>
+                        <Typography style={titlestyle} >Nuestra Misión</Typography>
+                    </Container>
                     <Typography style={textstyle} align="left" padding={4} component={'div'}>
                         <pre style={{ whiteSpace: 'pre-wrap', wordBreak: 'break-all' }}>{textos[0]}</pre>
                     </Typography>
-                    <Grid container direction={'row'}>
+                    <Container style={{display:'grid', gridTemplateColumns:'0.15fr 1fr', marginTop:'3vh'}}>
                         <img src={v8} />
-                        <Typography style={titlestyle} padding={2}>Nuestra Visión</Typography>
-                    </Grid>
+                        <Typography style={titlestyle} >Nuestra Visión</Typography>
+                    </Container>
                     <Typography style={textstyle} align="left" padding={4} component={'div'}>
                         <pre style={{ whiteSpace: 'pre-wrap', wordBreak: 'break-all' }}>{textos[1]}</pre>
                     </Typography>
-                </Grid>
-            </Grid>
+                </Container>
+            </Container>
         </Paper>
     )
 }

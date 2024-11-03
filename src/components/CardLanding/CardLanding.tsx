@@ -20,11 +20,11 @@ export const CardLanding = ({svg=0, text=0, color="white", textColor='black'}:Pr
 
   return (
     
-    <Card elevation={2} style={{height:'30vh', alignContent:'center', margin:10, backgroundColor:color, maxWidth:'20vw', marginTop:'60%'}}>
+    <Card elevation={2} style={{height:'30vh', width:'20vw', alignContent:'center', margin:10, backgroundColor:color, maxWidth:'25vw', marginTop:'15%'}}>
         <div style={{ display:'flex', justifyContent:'center' }}>
         <img src={svgList[svg]}/>
         </div>
-        <Typography fontFamily={theme.typography.fontFamily} color={textColor}>{texts[text]}</Typography>
+        <Typography fontFamily={theme.typography.fontFamily} color={textColor} textAlign={'center'}>{texts[text]}</Typography>
     </Card>
   )
 }
