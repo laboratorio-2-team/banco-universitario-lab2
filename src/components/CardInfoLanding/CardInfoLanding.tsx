@@ -18,29 +18,25 @@ export const CardInfoLanding = ({svg=0, text=0, color="white", textColor='#0B103
     'Pagos de Matriculas Sin Complicaciones', 'Seguridad en Cada Transacción'
   ];
   const desc = [
-`Tu banco, siempre contigo. 
-Accede a todos los servicios 24/7.`,
-`Tu dinero, tus reglas. Visualiza y 
-administra tus fondos con facilidad`,
+`Tu banco, siempre contigo. Accede a todos los servicios 24/7.`,
+`Tu dinero, tus reglas. Visualiza y administra tus fondos con facilidad`,
 `Envía dinero a tus amigos tan rápido 
 como envías un mensaje.`,
 `Olvídate de las filas. Paga tus 
 servicios desde donde estés.`,
-`Tus datos y transacciones, garantizando
-que tu información personal y 
-financiera esté siempre segura.`
+`Tus datos y transacciones, garantizando que tu información personal y financiera esté siempre segura.`
   ];
 
   return (
-    <Card elevation={2} style={{height:'40vh', alignContent:'center', padding:20, backgroundColor:color, maxWidth:'20vw', marginLeft:'25%', marginTop:'2vh'}}>
+    <Card elevation={2} style={{minHeight:'40vh', alignContent:'center', padding:20, backgroundColor:color, maxWidth:'20vw', marginLeft:'25%', marginTop:'2vh'}}>
         <div style={{ display:'flex', justifyContent:'center' }}>
         <img src={svgList[svg]}/>
         </div>
-        <Typography fontFamily={theme.typography.fontFamily} color={textColor}>
+        <Typography fontFamily={theme.typography.fontFamily} color={textColor} textAlign={'center'}>
             {texts[text]}
         </Typography>
-        <Typography fontFamily={theme.typography.fontFamily} color={textColor} component={'div'}>
-            <pre style={{whiteSpace:'pre-wrap', wordBreak:'break-all'}}>{desc[text]}</pre>
+        <Typography fontFamily={theme.typography.fontFamily} color={textColor} component={'div'} textAlign={'center'}>
+            <pre style={{whiteSpace:'pre-wrap', wordBreak:'break-word'}}>{desc[text]}</pre>
         </Typography>
     </Card>
   )

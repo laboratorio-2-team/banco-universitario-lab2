@@ -10,21 +10,16 @@ export const AboutLanding = () => {
     const titlestyle = { fontFamily: theme.typography.fontFamily, color: "#053436", fontSize: '1.4rem' };
     const textstyle = { fontFamily: theme.typography.fontFamily, color: "#6D6D6D", fontSize: '1rem' };
     const textos = [
-        `Somos una institución financiera comprometida con los estudiantes 
-universitarios, brindando soluciones financieras ágiles y eficientes.  
-Nuestra misión es facilitar la gestión de sus recursos y contribuir al 
-crecimiento económico y personal de nuestros clientes.`,
-        `Queremos ser la mejor opción financiera para estudiantes universitarios 
-en el país. Deseamos ser reconocidos por nuestros servicios innovadores, 
-la calidad de atención al cliente y nuestro compromiso con la educación
-y el desarrollo social.`
+        `Somos una institución financiera comprometida con los estudiantes universitarios, brindando soluciones financieras ágiles y eficientes.  
+Nuestra misión es facilitar la gestión de sus recursos y contribuir al crecimiento económico y personal de nuestros clientes.`,
+        `Queremos ser la mejor opción financiera para estudiantes universitarios en el país. Deseamos ser reconocidos por nuestros servicios innovadores, la calidad de atención al cliente y nuestro compromiso con la educación y el desarrollo social.`
     ];
     return (
         <Paper className="w-screen" sx={{ marginLeft: 'calc(50% - 50vw)', marginBottom: '20px', backgroundColor: '#F7F7F7' }}>
             <Container style={{display:'grid', gridTemplateColumns:'1fr 1fr'}}>
                 <Container>
-                    <img src={img2} style={{ marginLeft: '2vw', marginBottom: '-30vh' }} />
-                    <img src={img1} style={{ marginLeft: '-10vw' }} />
+                    <img src={img2} style={{ marginLeft: '2vw', marginBottom: '-30vh', marginTop:'2vh', height:'60%', width:'70%', maxHeight:'420px' }} />
+                    <img src={img1} style={{ marginLeft: '-10vw', height:'60%', width:'70%', maxHeight:'420px' }} />
                 </Container>
                 <Container>
                     <Container style={{display:'grid', gridTemplateColumns:'0.15fr 1fr', marginTop:'3vh'}}>
@@ -36,14 +31,14 @@ y el desarrollo social.`
                         <Typography style={titlestyle} >Nuestra Misión</Typography>
                     </Container>
                     <Typography style={textstyle} align="left" padding={4} component={'div'}>
-                        <pre style={{ whiteSpace: 'pre-wrap', wordBreak: 'break-all' }}>{textos[0]}</pre>
+                        <pre style={{ whiteSpace: 'pre-wrap', wordBreak: 'break-word' }}>{textos[0]}</pre>
                     </Typography>
                     <Container style={{display:'grid', gridTemplateColumns:'0.15fr 1fr', marginTop:'3vh'}}>
                         <img src={v8} />
                         <Typography style={titlestyle} >Nuestra Visión</Typography>
                     </Container>
                     <Typography style={textstyle} align="left" padding={4} component={'div'}>
-                        <pre style={{ whiteSpace: 'pre-wrap', wordBreak: 'break-all' }}>{textos[1]}</pre>
+                        <pre style={{ whiteSpace: 'pre-wrap', wordBreak: 'break-word' }}>{textos[1]}</pre>
                     </Typography>
                 </Container>
             </Container>

@@ -1,4 +1,4 @@
-import { Avatar, Container, Paper, Typography } from "@mui/material";
+import { Avatar, Container, Link, Paper, Typography } from "@mui/material";
 import { useTheme } from "styled-components";
 import footerimage from "@assets/Footer_Image.png";
 import FacebookIcon from '@mui/icons-material/Facebook';
@@ -8,7 +8,8 @@ export const FooterLanding = () => {
   const theme = useTheme();
   const stylefont = { fontFamily: theme.typography.fontFamily, color: 'white' };
   return (
-    <Paper className="w-full" style={{ backgroundImage: `url(${footerimage})` }}>
+    <Paper className="w-full" style={{ backgroundImage: `url(${footerimage})`,
+    backgroundSize:'cover', backgroundPosition:'center', backgroundRepeat:'no-repeat' }}>
         <Typography fontFamily={theme.typography.fontFamily} color='white' style={{display:'flex', justifyContent:'center'}} padding={2}>Información de Contacto</Typography>
       <Container style={{display:'grid', gridTemplateColumns:'1fr 1fr'}}>
         <div>
@@ -22,19 +23,25 @@ export const FooterLanding = () => {
             <Avatar sx={{ bgcolor: 'white', marginBottom: 2 }}>
               <FacebookIcon sx={{ color: 'black' }} />
             </Avatar>
-            <Typography style={stylefont} align="left" padding={1}>@bancouniversitariove</Typography>
+            <Link style={stylefont} align="left" padding={1} href='https://www.facebook.com/bancouniversitariove' target='_blank'>
+              @bancouniversitariove
+            </Link>
           </Container>
           <Container style={{display:'grid', gridTemplateColumns:'0.1fr 1fr', marginTop:'3vh'}}>
             <Avatar sx={{ bgcolor: 'white', marginBottom: 2 }}>
               <InstagramIcon sx={{ color: 'black' }} />
             </Avatar>
-            <Typography style={stylefont} align="left" padding={1}>@bancouniversitariove</Typography>
+            <Link style={stylefont} align="left" padding={1} href='https://www.instagram.com/bancouniversitariove' target='_blank'>
+              @bancouniversitariove
+            </Link>
           </Container>
           <Container style={{display:'grid', gridTemplateColumns:'0.1fr 1fr', marginTop:'3vh'}}>
             <Avatar sx={{ bgcolor: 'white', marginBottom: 2 }}>
               <TwitterIcon sx={{ color: 'black' }} />
             </Avatar>
-            <Typography style={stylefont} align="left" padding={1}>@bancouniversitariove</Typography>
+            <Link style={stylefont} align="left" padding={1} href='https://www.twitter.com/bancouniversitariove' target='_blank'>
+              @bancouniversitariove
+            </Link>
           </Container>
         </div>
       </Container>

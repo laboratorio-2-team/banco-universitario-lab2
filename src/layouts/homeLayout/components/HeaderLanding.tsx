@@ -12,11 +12,10 @@ import { Link } from "react-router-dom";
 import { Logo } from "@components";
 export const HeaderLanding = () => {
 
-
   return (
-    <AppBar className="w-full">
+    <AppBar className="w-full" style={{background:'white'}}>
       <Container className="w-full">
-        <Toolbar className="w-full flex flex-row justify-between" disableGutters>
+        <Toolbar className="w-full flex flex-row justify-between bg-white" disableGutters>
           <Logo />
           <Grid
             container

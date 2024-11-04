@@ -8,7 +8,8 @@ export const WelcomeLanding = () => {
     const stylefont = { marginTop: '100px', fontFamily: theme.typography.fontFamily, color: '#053436', fontSize: '1.4rem' };
     const stylefont1 = { fontFamily: theme.typography.fontFamily, color: 'black', fontSize: '1.5rem' };
     return (
-        <Paper className="w-screen" style={{ backgroundImage: `url(${imagen})`, marginLeft:'calc(50% - 50vw)' }}>
+        <Paper className="w-screen" style={{ backgroundImage: `url(${imagen})`, marginLeft:'calc(50% - 50vw)', backgroundSize:'cover',
+        backgroundPosition:'center', backgroundRepeat:'no-repeat' }}>
             <Container >
                 <Container style={{display:'grid', gridTemplateColumns:'0.1fr 1fr'}}>
                     <img src={v6} style={{ marginTop: '100px' }} />

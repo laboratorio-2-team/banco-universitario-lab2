@@ -4,7 +4,9 @@ import { CardInfoLanding } from "@components/CardInfoLanding";
 
 export const InfoLanding = () => {
     return (
-        <Paper className='w-screen' style={{ backgroundImage: `url(${imagen})` }} sx={{ marginLeft: 'calc(50% - 50vw)', marginBottom: '25px', marginTop: '25px' }}>
+        <Paper className='w-screen' style={{ backgroundImage: `url(${imagen})` }} sx={{ marginLeft: 'calc(50% - 50vw)', marginBottom: '25px', marginTop: '25px',
+            backgroundSize:'cover', backgroundPosition:'center', backgroundRepeat:'no-repeat'
+         }}>
             <Container style={{display:'grid', gridTemplateColumns:'1fr 1fr 1fr'}}>
                 <CardInfoLanding svg={0} text={0} />
                 <CardInfoLanding svg={3} text={1} color="#085F63" textColor="white" />
