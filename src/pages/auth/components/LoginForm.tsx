@@ -111,12 +111,14 @@ export const LoginForm: React.FC = () => {
             justifyContent="center"
             style={{ marginBottom: "20px" }}
           >
-            <img
-              alt="logo"
-              src="src/assets/logo-no-background.png"
-              className="responsive"
-              style={{ maxWidth: "180px", marginBottom: "20px" }}
-            />
+            <a href="/">
+              <img
+                alt="logo"
+                src="src/assets/logo-no-background.png"
+                className="responsive"
+                style={{ maxWidth: "180px", marginBottom: "20px" }}
+              />
+            </a>
             <Typography style={titlestyle} gutterBottom>
               Bienvenido a Banca en Linea
             </Typography>
