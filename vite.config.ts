@@ -17,6 +17,8 @@ export default defineConfig({
       "@layouts/*": path.resolve(__dirname, "src/layouts/*"),
       "@assets": path.resolve(__dirname, "src/assets"),
       "@assets/*": path.resolve(__dirname, "src/assets/*"),
+      "@hooks": path.resolve(__dirname, "src/utils/hooks"),
+      "@hooks/*": path.resolve(__dirname, "src/utils/hooks/*"),
       path: "path-browserify",
     },
   },

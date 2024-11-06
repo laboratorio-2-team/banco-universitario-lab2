@@ -1,30 +1,22 @@
-import { Grid, Paper } from "@mui/material"
+import { Box, Paper } from "@mui/material"
 import imagen from "@assets/News_letter.png"
 import { CardInfoLanding } from "@components/CardInfoLanding";
 
 export const InfoLanding = () => {
-  return (
-    <Paper style={{backgroundImage:`url(${imagen})`}} sx={{width:'100vw', maxWidth:'100vw', marginLeft:'calc(50% - 50vw)', marginBottom:'25px', marginTop:'25px'}}>
-        <Grid container spacing={3}>
-            <Grid item xs={4}>
-                <CardInfoLanding svg={0} text={0}/>
-            </Grid>
-            <Grid item xs={4}>
-                <CardInfoLanding svg={3} text={1} color="#085F63" textColor="white"/>
-            </Grid>
-            <Grid item xs={4}>
-                <CardInfoLanding svg={4} text={2}/>
-            </Grid>
-            <Grid item xs={4}>
-                <CardInfoLanding svg={1} text={3}/>
-            </Grid>
-            <Grid item xs={4}>
-                
-            </Grid>
-            <Grid item xs={4}>
-                <CardInfoLanding svg={2} text={4}/>
-            </Grid>
-        </Grid>
-    </Paper>
-  )
+    return (
+        <Paper style={{ backgroundImage: `url(${imagen})` }} sx={{
+            marginBottom: '25px', marginTop: '25px',
+            backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat'
+        }}>
+            <Box component='div' className="grid lg:grid-cols-3 lg:grid-rows-2 grid-cols-1 grid-rows-5 gap-8 p-10 " >
+                <CardInfoLanding svg={0} text={0} />
+                <CardInfoLanding svg={3} text={1} />
+                <CardInfoLanding svg={4} text={2} />
+                <CardInfoLanding svg={1} text={3} />
+                <div className="hidden lg:block"></div>
+                <CardInfoLanding svg={2} text={4} />
+            </Box>
+
+        </Paper>
+    )
 }

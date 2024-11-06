@@ -1,30 +1,38 @@
 import { Card, Typography } from "@mui/material"
-import { useTheme } from "styled-components"
-import v1 from '../../assets/v1.svg'
-import v2 from '../../assets/v2.svg'
-import v3 from '../../assets/v3.svg'
-import v4 from '../../assets/v4.svg'
-import v5 from '../../assets/v5.svg'
+import styled, { useTheme } from "styled-components"
+
+
+const StyledCard = styled(Card)`
+    max-width: 240px;
+    min-width: 240px;
+    max-height: 240px;
+    min-height: 240px;
+    height: inherit;
+    width: auto;
+    flex: 1;
+  `;
+
+const CardTypography = styled(Typography)`
+    font-weight: 600;
+    line-break: auto;
+    font-size: 20px;
+    text-justify: center;
+  `
+
 interface Props {
-    svg?:number,
-    text?:number,
-    color?:string,
-    textColor?:string
-};
-export const CardLanding = ({svg=0, text=0, color="white", textColor='black'}:Props) => {
+  svg: string,
+  text: string,
+
+}
+export const CardLanding = ({ svg = '', text = '' }: Props) => {
   const theme = useTheme();
-  const svgList = [v1, v2, v3, v4, v5];
-  const texts = ['Transferencias entre Estudiantes', 'Retiros en Efectivo', 'Depósitos en Efectivo',
-    'Pago de Matrícula Estudiantil', 'Cobro de Becas de Estudiantiles'
-  ];
 
   return (
-    
-    <Card elevation={2} style={{height:'30vh', alignContent:'center', margin:10, backgroundColor:color, maxWidth:'20vw', marginTop:'60%'}}>
-        <div style={{ display:'flex', justifyContent:'center' }}>
-        <img src={svgList[svg]}/>
-        </div>
-        <Typography fontFamily={theme.typography.fontFamily} color={textColor}>{texts[text]}</Typography>
-    </Card>
+    <StyledCard elevation={2} className="w-full h-full px-1 py-20 content-center bg-white hover:bg-primary-main hover:text-white-main lg:mr-4 mb-4 self-center">
+      <div className="flex justify-center items-center">
+        <img src={svg} width={56} />
+      </div>
+      <CardTypography fontFamily={theme.typography.fontFamily} textAlign={'center'}>{text}</CardTypography>
+    </StyledCard>
   )
 }
