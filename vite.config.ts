@@ -22,4 +22,11 @@ export default defineConfig({
       path: "path-browserify",
     },
   },
+  optimizeDeps: {
+    include: [
+      "@emotion/styled",
+      "@mui/styled-engine-sc",
+      "@mui/styled-engine",
+    ],
+  },
 });
