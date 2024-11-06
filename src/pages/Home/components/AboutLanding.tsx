@@ -15,25 +15,25 @@ Nuestra misión es facilitar la gestión de sus recursos y contribuir al crecimi
         `Queremos ser la mejor opción financiera para estudiantes universitarios en el país. Deseamos ser reconocidos por nuestros servicios innovadores, la calidad de atención al cliente y nuestro compromiso con la educación y el desarrollo social.`
     ];
     return (
-        <Paper className="w-screen" sx={{ marginLeft: 'calc(50% - 50vw)', marginBottom: '20px', backgroundColor: '#F7F7F7' }}>
-            <Container style={{display:'grid', gridTemplateColumns:'1fr 1fr'}}>
+        <Paper sx={{ marginBottom: '20px', backgroundColor: '#F7F7F7' }}>
+            <Container style={{ display: 'grid', gridTemplateColumns: '1fr 1fr' }}>
                 <Container>
-                    <img src={img2} style={{ marginLeft: '2vw', marginBottom: '-30vh', marginTop:'2vh', height:'60%', width:'70%', maxHeight:'420px' }} />
-                    <img src={img1} style={{ marginLeft: '-10vw', height:'60%', width:'70%', maxHeight:'420px' }} />
+                    <img src={img2} style={{ marginLeft: '2vw', marginBottom: '-30vh', marginTop: '2vh', height: '60%', width: '70%', maxHeight: '420px' }} />
+                    <img src={img1} style={{ marginLeft: '-10vw', height: '60%', width: '70%', maxHeight: '420px' }} />
                 </Container>
                 <Container>
-                    <Container style={{display:'grid', gridTemplateColumns:'0.15fr 1fr', marginTop:'3vh'}}>
+                    <Container style={{ display: 'grid', gridTemplateColumns: '0.15fr 1fr', marginTop: '3vh' }}>
                         <img src={v6} />
                         <Typography style={titlestyle} >Sobre Nosotros</Typography>
                     </Container>
-                    <Container style={{display:'grid', gridTemplateColumns:'0.15fr 1fr', marginTop:'3vh'}}>
+                    <Container style={{ display: 'grid', gridTemplateColumns: '0.15fr 1fr', marginTop: '3vh' }}>
                         <img src={v7} />
                         <Typography style={titlestyle} >Nuestra Misión</Typography>
                     </Container>
                     <Typography style={textstyle} align="left" padding={4} component={'div'}>
                         <pre style={{ whiteSpace: 'pre-wrap', wordBreak: 'break-word' }}>{textos[0]}</pre>
                     </Typography>
-                    <Container style={{display:'grid', gridTemplateColumns:'0.15fr 1fr', marginTop:'3vh'}}>
+                    <Container style={{ display: 'grid', gridTemplateColumns: '0.15fr 1fr', marginTop: '3vh' }}>
                         <img src={v8} />
                         <Typography style={titlestyle} >Nuestra Visión</Typography>
                     </Container>

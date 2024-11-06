@@ -11,6 +11,11 @@ export const lightTheme: Theme = createTheme({
       },
       defaultProps: {
         color: "default",
+        sx: {
+          display: "flex",
+          height: "auto",
+          padding: "1rem 4% .5rem 4%",
+        },
       },
     },
   },

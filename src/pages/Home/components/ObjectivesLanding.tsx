@@ -60,27 +60,27 @@ clientes y del mercado.
         });
     }
     return (
-        <Paper className="w-screen" sx={{ marginLeft: 'calc(50% - 50vw)', marginBottom: '20px', backgroundColor: '#F7F7F7', minHeight:'70vh' }}>
+        <Paper sx={{ marginBottom: '20px', backgroundColor: '#F7F7F7', minHeight: '70vh' }}>
             <Container>
-                <Container style={{display:'flex', flexDirection:'row', marginTop:'5vh', justifyContent:'center'}}>
+                <Container style={{ display: 'flex', flexDirection: 'row', marginTop: '5vh', justifyContent: 'center' }}>
                     <img src={v6} />
                     <Typography style={titlestyle} padding={1}>Objetivos</Typography>
                 </Container>
-                <Container style={{display:'grid', gridTemplateColumns:'1fr 1fr'}}>
+                <Container style={{ display: 'grid', gridTemplateColumns: '1fr 1fr' }}>
                     <div style={{ height: '100%', width: '100%', display: 'flex', overflow: 'hidden' }}>
                         {images.map(url => (
                             <img key={url} src={url} style={{ translate: `${-100 * index}%`, transition: 'translate 300ms ease-in-out' }} />))}
                     </div>
                     <Container>
                         <Typography component={'div'} style={textstyle} padding={2}>
-                           <pre style={{ whiteSpace: 'pre-wrap', wordBreak: 'break-word' }}>{texts[index]}</pre>
+                            <pre style={{ whiteSpace: 'pre-wrap', wordBreak: 'break-word' }}>{texts[index]}</pre>
                         </Typography>
-                        <div onClick={changeObjective} style={{ cursor: 'pointer', height: '6vh', marginLeft:'10vw' }}>
+                        <div onClick={changeObjective} style={{ cursor: 'pointer', height: '6vh', marginLeft: '10vw' }}>
                             <PlayArrowIcon sx={{ color: "#053436" }} fontSize="large" />
                         </div>
                     </Container>
                 </Container>
-                
+
             </Container>
         </Paper>
     )

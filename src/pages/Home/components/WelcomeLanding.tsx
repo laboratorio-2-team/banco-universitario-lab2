@@ -1,38 +1,76 @@
-import { Paper, Typography, Container } from "@mui/material"
+import { Paper, Typography, Box } from "@mui/material"
 import imagen from "@assets/thought-catalog-23KdVfc395A-unsplash.png"
 import v6 from "@assets/v6.svg"
 import { CardLanding } from "@components/CardLanding"
 import { useTheme } from "styled-components"
+
+import v1 from '@assets/v1.svg'
+import v2 from '@assets/v2.svg'
+import v3 from '@assets/v3.svg'
+import v4 from '@assets/v4.svg'
+import v5 from '@assets/v5.svg'
+
 export const WelcomeLanding = () => {
     const theme = useTheme();
-    const stylefont = { marginTop: '100px', fontFamily: theme.typography.fontFamily, color: '#053436', fontSize: '1.4rem' };
-    const stylefont1 = { fontFamily: theme.typography.fontFamily, color: 'black', fontSize: '1.5rem' };
+    const stylefont: React.CSSProperties = { fontFamily: theme.typography.fontFamily, color: '#053436', fontSize: '22px', fontWeight: 500 };
+    const stylefont1: React.CSSProperties = { fontFamily: theme.typography.fontFamily, color: 'black', fontSize: '2rem', fontWeight: 'bold' };
+
+
+    const cardsList = [
+        {
+            text: 'Transferencias entre Estudiantes',
+            svg: v1
+        },
+        {
+            text: 'Retiros en Efectivo',
+            svg: v2
+        },
+        {
+            text: 'Depósitos en Efectivo',
+            svg: v3
+        },
+        {
+            text: 'Pago de Matrícula Estudiantil',
+            svg: v4
+        },
+        {
+            text: 'Cobro de Becas de Estudiantiles',
+            svg: v5
+        },
+    ]
+
     return (
-        <Paper className="w-screen" style={{ backgroundImage: `url(${imagen})`, marginLeft:'calc(50% - 50vw)', backgroundSize:'cover',
-        backgroundPosition:'center', backgroundRepeat:'no-repeat' }}>
-            <Container >
-                <Container style={{display:'grid', gridTemplateColumns:'0.1fr 1fr'}}>
-                    <img src={v6} style={{ marginTop: '100px' }} />
-                    <Typography style={stylefont}>
-                        Bienvenido al Banco Universitario
-                    </Typography>
-                </Container>
-                <Container>
-                    <Typography style={stylefont1}>
-                        Empieza tu educación
-                    </Typography>
-                    <Typography style={stylefont1}>
-                        Financiera Hoy
-                    </Typography>
-                </Container>
-                <Container style={{display:'flex', flexDirection:'row'}}>
-                    <CardLanding svg={0} text={0} />
-                    <CardLanding svg={1} text={1} color="#085F63" textColor="white" />
-                    <CardLanding svg={2} text={2} />
-                    <CardLanding svg={3} text={3} />
-                    <CardLanding svg={4} text={4} />
-                </Container>
-            </Container>
+        <Paper style={{
+            backgroundImage: `url(${imagen})`, backgroundSize: 'cover',
+            backgroundPosition: 'center', backgroundRepeat: 'no-repeat',
+        }}>
+            <Box component='div' className="py-20 px-[15%]" >
+                <Box component={'div'} className="flex flex-col justify-center items-start mb-8">
+                    <Box component='div' className="flex flex-row items-center ml-[-1rem]">
+                        <img src={v6} />
+                        <Typography component='p' className="text-primary-main text-xl font-semibold" style={stylefont}>
+                            Bienvenido al Banco Universitario
+                        </Typography>
+                    </Box>
+                    <Box component='div'>
+                        <Typography style={stylefont1}>
+                            Empieza tu educación
+                        </Typography>
+                        <Typography style={stylefont1}>
+                            Financiera Hoy
+                        </Typography>
+                    </Box>
+                </Box>
+                <Box component={'div'} className="flex  flex-row justify-between flex-wrap">
+
+                    {
+                        cardsList.map(({ svg, text }) => (
+                            <CardLanding key={text} svg={svg} text={text} />
+                        ))
+                    }
+
+                </Box>
+            </Box>
         </Paper>
     )
 }
