@@ -1,8 +1,11 @@
+import compactLogo from '@assets/banco-universitario-website-favicon-color.png'
+import fullLogo from '@assets/logo-no-background.png'
+
 
 export const Logo = () => {
     const logoSrc = {
-        fullLogo: 'src/assets/logo-no-background.png',
-        compactLogo: 'src/assets/banco-universitario-website-favicon-color.png'
+        fullLogo,
+        compactLogo
     }
     return (
         <>
