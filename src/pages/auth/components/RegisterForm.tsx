@@ -2,6 +2,7 @@ import { Grid, Paper, Typography, TextField, Button } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import { GlobalStyles } from "@mui/material";
 import img1 from "@assets/coverRegister.png";
+import logo from '@assets/logo-no-background.png'
 import { Link } from "react-router-dom";
 import React, { useState } from "react";
 export const RegisterForm = () => {
@@ -160,7 +161,7 @@ export const RegisterForm = () => {
                 <a href="/">
                   <img
                     alt="logo"
-                    src="src/assets/logo-no-background.png"
+                    src={logo}
                     className="responsive"
                     style={{ maxWidth: "290px", marginBottom: "20px" }}
                   />

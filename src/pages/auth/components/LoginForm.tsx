@@ -12,6 +12,8 @@ import backgroundImage from "@assets/Background-Image.png";
 import { GlobalStyles } from "@mui/material";
 import { Link } from "react-router-dom";
 import { useState } from "react";
+import logo from '@assets/logo-no-background.png'
+
 
 export const LoginForm: React.FC = () => {
   const theme = useTheme();
@@ -114,7 +116,7 @@ export const LoginForm: React.FC = () => {
             <a href="/">
               <img
                 alt="logo"
-                src="src/assets/logo-no-background.png"
+                src={logo}
                 className="responsive"
                 style={{ maxWidth: "180px", marginBottom: "20px" }}
               />
