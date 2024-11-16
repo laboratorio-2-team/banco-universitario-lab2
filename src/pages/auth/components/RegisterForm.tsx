@@ -39,22 +39,22 @@ export const RegisterForm = () => {
     color: "#fff",
   };
 
-  const [data, setData] = useState({nombre:'',apellido:'',fechaNac:'',id:'',email:'',telefono:'',password:'',confirm:''});
+  const [data, setData] = useState({name:'',lastName:'',birthDate:'',id:'',email:'',phone:'',password:'',confirm:''});
 
   const valName = ()=>{
-    if (!data.nombre) return false
+    if (!data.name) return false
     const re = /^[A-Za-z\-]+$/;
-    return re.test(data.nombre);
+    return re.test(data.name);
   };
   const valLast = ()=>{
-    if (!data.apellido) return false
+    if (!data.lastName) return false
     const re = /^[A-Za-z\-]+$/;
-    return re.test(data.apellido);
+    return re.test(data.lastName);
   };
   const valDate = ()=>{
-    if (!data.fechaNac) return false
+    if (!data.birthDate) return false
     const today = new Date();
-    const birth = new Date(data.fechaNac);
+    const birth = new Date(data.birthDate);
     const age = today.getFullYear() - birth.getFullYear();
     return age >= 15;
   };
@@ -73,9 +73,9 @@ export const RegisterForm = () => {
     return re.test(data.id);
   };
   const valPhone = ()=>{
-    if (!data.telefono) return false
+    if (!data.phone) return false
     const re = /^[0-9]+$/;
-    return re.test(data.telefono);
+    return re.test(data.phone);
   };
   const valPassword = ()=>{
     if (!data.password) return false
@@ -188,7 +188,7 @@ export const RegisterForm = () => {
                     name="nombre"
                     onChange={handleChange}
                     error={!valName()}
-                    helperText={!valName() ? (data.nombre ? 'El nombre debe contener solo letras' : 'El campo no puede estar vacío'):''}
+                    helperText={!valName() ? (data.name ? 'El nombre debe contener solo letras' : 'El campo no puede estar vacío'):''}
                   />
                 </Grid>
                 <Grid item xs={12} md={6}>
@@ -200,7 +200,7 @@ export const RegisterForm = () => {
                     name="apellido"
                     onChange={handleChange}
                     error={!valLast()}
-                    helperText={!valLast() ? (data.apellido ? 'El apellido debe contener solo letras' : 'El campo no puede estar vacío'):''}
+                    helperText={!valLast() ? (data.lastName ? 'El apellido debe contener solo letras' : 'El campo no puede estar vacío'):''}
                   />
                 </Grid>
               </Grid>
@@ -218,7 +218,7 @@ export const RegisterForm = () => {
                     name="fechaNac"
                     onChange={handleChange}
                     error={!valDate()}
-                    helperText={!valDate() ? (data.fechaNac ? 'Debe ser mayor de 15 para poder registrarse' : 'El campo no puede estar vacío'):''}
+                    helperText={!valDate() ? (data.birthDate ? 'Debe ser mayor de 15 para poder registrarse' : 'El campo no puede estar vacío'):''}
                   />
                 </Grid>
                 <Grid item xs={12} md={6}>
@@ -256,7 +256,7 @@ export const RegisterForm = () => {
                 name="telefono"
                 onChange={handleChange}
                 error={!valPhone()}
-                helperText={!valPhone() ? (data.telefono ? 'El telefono debe contener solo numeros' : 'El campo no puede estar vacío'):''}
+                helperText={!valPhone() ? (data.phone ? 'El telefono debe contener solo numeros' : 'El campo no puede estar vacío'):''}
                 style={{ marginBottom: "20px" }}
               />
               <TextField

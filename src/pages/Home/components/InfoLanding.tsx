@@ -1,10 +1,10 @@
 import { Box, Paper } from "@mui/material"
-import imagen from "@assets/News_letter.png"
+import image from "@assets/News_letter.png"
 import { CardInfoLanding } from "@components/CardInfoLanding";
 
 export const InfoLanding = () => {
     return (
-        <Paper style={{ backgroundImage: `url(${imagen})` }} sx={{
+        <Paper style={{ backgroundImage: `url(${image})` }} sx={{
             marginBottom: '25px', marginTop: '25px',
             backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat'
         }}>
