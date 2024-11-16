@@ -7,11 +7,11 @@ import img4 from "@assets/unsplash_fMntI8HAAC1.png"
 import img5 from "@assets/unsplash_fMntI8HAAC2.png"
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import { useTheme } from "styled-components";
-import { useState } from "react"
+import { useEffect, useState } from "react"
 export const ObjectivesLanding = () => {
     const theme = useTheme();
     const titlestyle = { fontFamily: theme.typography.fontFamily, color: "#053436", fontSize: '1.4rem' };
-    const textstyle = { fontFamily: theme.typography.fontFamily, color: "#0B1035", fontSize: '3vmin', marginTop: '18%' };
+    const textstyle = { fontFamily: theme.typography.fontFamily, color: "#0B1035", fontSize: '2rem', marginTop: '18%', minHeight:'65vh' };
     const texts = [
         `Brindar a los estudiantes 
 universitarios un servicio 
@@ -53,12 +53,19 @@ clientes y del mercado.
     ];
     const images = [img1, img2, img3, img4, img5];
     const [index, setIndex] = useState(0);
+    const [autoPlay, setAutoplay] = useState(true);
     const changeObjective = () => {
         setIndex(index => {
             if (index === images.length - 1) return 0
             return index + 1
         });
     }
+    let timeOut:any = null;
+    useEffect(()=>{
+        timeOut = autoPlay && setTimeout(()=>{
+            changeObjective()
+        },2500);
+    })
     return (
         <Paper sx={{ marginBottom: '20px', backgroundColor: '#F7F7F7', minHeight: '70vh' }}>
             <Container>
@@ -66,13 +73,21 @@ clientes y del mercado.
                     <img src={v6} />
                     <Typography style={titlestyle} padding={1}>Objetivos</Typography>
                 </Container>
-                <Container style={{ display: 'grid', gridTemplateColumns: '1fr 1fr' }}>
+                <Container style={{ display: 'grid', gridTemplateColumns: '1fr 1fr' }} onMouseEnter={
+                    ()=>{
+                        setAutoplay(false);
+                        clearTimeout(timeOut);
+                        }} onMouseLeave={
+                    ()=>{
+                        setAutoplay(true);
+                        clearTimeout(timeOut);
+                    }}>
                     <div style={{ height: '100%', width: '100%', display: 'flex', overflow: 'hidden' }}>
                         {images.map(url => (
                             <img key={url} src={url} style={{ translate: `${-100 * index}%`, transition: 'translate 300ms ease-in-out' }} />))}
                     </div>
                     <Container>
-                        <Typography component={'div'} style={textstyle} padding={2}>
+                        <Typography  component={'div'} style={textstyle} padding={2}>
                             <pre style={{ whiteSpace: 'pre-wrap', wordBreak: 'break-word' }}>{texts[index]}</pre>
                         </Typography>
                         <div onClick={changeObjective} style={{ cursor: 'pointer', height: '6vh', marginLeft: '10vw' }}>

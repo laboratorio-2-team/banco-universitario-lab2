@@ -104,10 +104,7 @@ export const RegisterForm = () => {
       />
       <Paper
         sx={{
-          width: "100vw",
-          maxWidth: "100vw",
-          marginLeft: "calc(50% - 50vw)",
-          backgroundColor: "#F7F7F7",
+          backgroundColor: "#F7F7F7"
         }}
       >
         <Grid container spacing={3}>
