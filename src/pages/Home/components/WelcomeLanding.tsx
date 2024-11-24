@@ -1,5 +1,5 @@
 import { Paper, Typography, Box } from "@mui/material"
-import imagen from "@assets/thought-catalog-23KdVfc395A-unsplash.png"
+import image from "@assets/thought-catalog-23KdVfc395A-unsplash.png"
 import v6 from "@assets/v6.svg"
 import { CardLanding } from "@components/CardLanding"
 import { useTheme } from "styled-components"
@@ -41,7 +41,7 @@ export const WelcomeLanding = () => {
 
     return (
         <Paper style={{
-            backgroundImage: `url(${imagen})`, backgroundSize: 'cover',
+            backgroundImage: `url(${image})`, backgroundSize: 'cover',
             backgroundPosition: 'center', backgroundRepeat: 'no-repeat',
         }}>
             <Box component='div' className="py-20 px-[15%]" >
