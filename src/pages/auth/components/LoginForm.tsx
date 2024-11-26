@@ -13,7 +13,9 @@ import { GlobalStyles } from "@mui/material";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import logo from '@assets/logo-no-background.png'
-
+import { loginApi } from "../../../services/modules/auth";
+import { FormikHelpers, useFormik } from "formik";
+import { FromValues, initialValues, validationSchema } from '../../../schemas';
 
 export const LoginForm: React.FC = () => {
   const theme = useTheme();
@@ -22,6 +24,27 @@ export const LoginForm: React.FC = () => {
   const handleToggle = () => {
     setRememberMe((prev) => !prev);
   };
+
+  const onSubmit = (values: FromValues, formikHelpers: FormikHelpers<FromValues>) => {
+    formikHelpers.resetForm();
+    console.log(errors);
+    if (!errors.email && !errors.password) {
+      loginApi(values).then(res => {
+        const { message, data } = res;
+        if (message){
+          alert(message); //aqui hacer la navegación cuando se cree la pagina
+        }
+        if (data){
+          alert(data.message)
+        }
+      });
+    }
+}
+  const { errors, touched, values, handleSubmit, handleBlur, handleChange } = useFormik({
+    initialValues,
+    validationSchema,
+    onSubmit
+  });
 
   // Estilos personalizados para el formulario
   const formStyle: React.CSSProperties = {
@@ -129,27 +152,33 @@ export const LoginForm: React.FC = () => {
             </Typography>
           </Grid>
 
-          <Grid container direction="column" spacing={2}>
-            {/* Campos del formulario */}
-            <Grid item>
+          <form onSubmit={handleSubmit}>
               <TextField
+                className="!pb-4"
                 label="Correo"
                 variant="outlined"
                 type="email"
+                name="email"
+                value={values.email}
+                onChange={handleChange}
+                error={touched.email && Boolean(errors.email?.length)}
+                onBlur={handleBlur}
                 fullWidth
                 required
               />
-            </Grid>
-            <Grid item>
               <TextField
+                className="!pb-4"
                 label="Contraseña"
                 type="password"
                 variant="outlined"
+                name="password"
+                value={values.password}
+                onChange={handleChange}
+                error={touched.password && Boolean(errors.password?.length)}
+                onBlur={handleBlur}
                 fullWidth
                 required
               />
-            </Grid>
-            <Grid item style={{ display: "flex", alignItems: "center" }}>
               <FormControlLabel
                 control={
                   <Switch
@@ -167,13 +196,11 @@ export const LoginForm: React.FC = () => {
                   </Typography>
                 }
               />
-            </Grid>
-          </Grid>
-
           {/* Botón de inicio de sesión */}
-          <Button variant="contained" fullWidth style={buttonStyle}>
+          <Button type="submit" variant="contained" fullWidth style={buttonStyle} >
             Iniciar Sesión
           </Button>
+          </form>
 
           <Typography style={textstyle}>
             ¿No tienes una cuenta con nosotros?{" "}

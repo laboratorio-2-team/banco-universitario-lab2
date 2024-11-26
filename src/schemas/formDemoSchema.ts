@@ -13,6 +13,6 @@ export const initialValues: FromValues = {
 }
 
 export const validationSchema: Schema = object({
-    password: string().min(8).required(),
-    email: string().email().required(),
+    password: string().min(8).required("Requerido"),
+    email: string().email({regex:/\S+@\S+\.\S+/}).required("Requerido"),
 })
