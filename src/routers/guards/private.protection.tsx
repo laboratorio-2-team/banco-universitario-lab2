@@ -5,11 +5,9 @@ import { Navigate } from "react-router-dom";
 
 export const PrivateProtection: FC<PropsWithChildren> = ({ children }) => {
   const { token } = useAuth();
-
   if (!token) {
-    <Navigate to={`/${HOME_ROUTE}`} />
+    return <Navigate to={`/${HOME_ROUTE}`} replace/>
   }
-
   return children
 
 }

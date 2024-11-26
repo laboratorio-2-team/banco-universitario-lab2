@@ -10,7 +10,7 @@ import {
 import { useTheme } from "@mui/material/styles";
 import backgroundImage from "@assets/Background-Image.png";
 import { GlobalStyles } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import logo from '@assets/logo-no-background.png'
 import { loginApi } from "../../../services/modules/auth";
@@ -20,7 +20,7 @@ import { FromValues, initialValues, validationSchema } from '../../../schemas';
 export const LoginForm: React.FC = () => {
   const theme = useTheme();
   const [rememberMe, setRememberMe] = useState<boolean>(false);
-
+  const navigate = useNavigate();
   const handleToggle = () => {
     setRememberMe((prev) => !prev);
   };
@@ -30,12 +30,12 @@ export const LoginForm: React.FC = () => {
     console.log(errors);
     if (!errors.email && !errors.password) {
       loginApi(values).then(res => {
-        const { message, data } = res;
-        if (message){
-          alert(message); //aqui hacer la navegación cuando se cree la pagina
+        const { errors , data } = res;
+        if (errors.length) {
+          alert(data.message);
         }
-        if (data){
-          alert(data.message)
+        else {
+          navigate("/dashboard");
         }
       });
     }
