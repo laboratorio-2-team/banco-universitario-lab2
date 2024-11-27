@@ -3,11 +3,14 @@ import { useTheme } from "@mui/material/styles";
 import { GlobalStyles } from "@mui/material";
 import img1 from "@assets/coverRegister.png";
 import logo from '@assets/logo-no-background.png'
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import React, { useState } from "react";
+import { FromRegister, initialValuesRegister, validationSchemaRegister } from "../../../schemas/";
+import { FormikHelpers, useFormik } from "formik";
+import { loginApi, registerApi } from "../../../services/modules/auth";
 export const RegisterForm = () => {
   const theme = useTheme(); // Acceso al tema de Material UI
-
+  const navigate = useNavigate();
   // Estilos personalizados usando el tema
 
   const titlestyle = {
@@ -38,54 +41,49 @@ export const RegisterForm = () => {
     backgroundColor: "#49BEB7",
     color: "#fff",
   };
+  const [confirm, setConfirm] = useState("");
 
-  const [data, setData] = useState({name:'',lastName:'',birthDate:'',id:'',email:'',phone:'',password:'',confirm:''});
+  const handleConfirm = (e:React.ChangeEvent<HTMLInputElement>) =>{
+    setConfirm(e.target.value);
+  }
+  const onSubmit = (values: FromRegister, formikHelpers:FormikHelpers<FromRegister>) => {
+    formikHelpers.resetForm();
+    console.log(errors);
+    values.birth_date += "T14:40:04.341364Z"; //TODO change this
+    console.log(values);
+    if (!errors.first_name && !errors.last_name && !errors.birth_date && !errors.document_number && !errors.email && !errors.phone_number && !errors.password && valConfirm()){
+      registerApi(values).then(res =>{
+        const { errors, message, data } = res;
+        if (errors.length){
+          alert(message)
+        }
+        else if (data){
+          const { email } = data;
+          const loginValues = { email:email, password:values.password }
+          loginApi(loginValues).then(res => {
+            const { errors , data } = res;
+          if (errors.length){
+            alert(data.message);
+          }
+          else{
+            navigate("/dashboard");
+          }
+          });
+        }
+      });
+    }
+  };
+  
+  const { errors, touched, values, handleSubmit, handleBlur, handleChange } = useFormik<FromRegister>({ 
+    initialValues:initialValuesRegister,
+    validationSchema:validationSchemaRegister,
+    onSubmit
+  })
 
-  const valName = ()=>{
-    if (!data.name) return false
-    const re = /^[A-Za-z\-]+$/;
-    return re.test(data.name);
-  };
-  const valLast = ()=>{
-    if (!data.lastName) return false
-    const re = /^[A-Za-z\-]+$/;
-    return re.test(data.lastName);
-  };
-  const valDate = ()=>{
-    if (!data.birthDate) return false
-    const today = new Date();
-    const birth = new Date(data.birthDate);
-    const age = today.getFullYear() - birth.getFullYear();
-    return age >= 15;
-  };
-  const handleChange = (e:React.ChangeEvent<HTMLInputElement>)=>{
-    setData({...data, [e.target.name]:e.target.value});
-    console.log(data);
-  }
-  const valEmail = ()=>{
-    if (!data.email) return false
-    const re = /\S+@\S+\.\S+/;
-    return re.test(data.email);
-  }
-  const valId = ()=>{
-    if (!data.id) return false
-    const re = /^[0-9]+$/;
-    return re.test(data.id);
-  };
-  const valPhone = ()=>{
-    if (!data.phone) return false
-    const re = /^[0-9]+$/;
-    return re.test(data.phone);
-  };
-  const valPassword = ()=>{
-    if (!data.password) return false
-    const re = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_])[A-Za-z\d\W_]{8,}$/;
-    return re.test(data.password);
-  };
   const valConfirm = ()=>{
-    if (!data.password || !data.confirm) return false
-    const re = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_])[A-Za-z\d\W_]{8,}$/;
-    return re.test(data.confirm) && (data.password === data.confirm)
+    
+    if (!confirm || !values.password) return false
+    return values.password === confirm
   }
   return (
     <>
@@ -174,6 +172,7 @@ export const RegisterForm = () => {
                 </Typography>
               </Grid>
 
+              <form onSubmit={handleSubmit}>
               {/* Fila para Nombre y Apellido */}
               <Grid container spacing={2} style={{ marginBottom: "20px" }}>
                 <Grid item xs={12} md={6}>
@@ -182,10 +181,12 @@ export const RegisterForm = () => {
                     variant="outlined"
                     fullWidth
                     required
-                    name="nombre"
+                    name="first_name"
+                    value={values.first_name}
                     onChange={handleChange}
-                    error={!valName()}
-                    helperText={!valName() ? (data.name ? 'El nombre debe contener solo letras' : 'El campo no puede estar vacío'):''}
+                    onBlur={handleBlur}
+                    error={touched.first_name && Boolean(errors.first_name?.length)}
+                    helperText={errors.first_name}
                   />
                 </Grid>
                 <Grid item xs={12} md={6}>
@@ -194,10 +195,12 @@ export const RegisterForm = () => {
                     variant="outlined"
                     fullWidth
                     required
-                    name="apellido"
+                    name="last_name"
+                    value={values.last_name}
                     onChange={handleChange}
-                    error={!valLast()}
-                    helperText={!valLast() ? (data.lastName ? 'El apellido debe contener solo letras' : 'El campo no puede estar vacío'):''}
+                    onBlur={handleBlur}
+                    error={touched.last_name && Boolean(errors.last_name?.length)}
+                    helperText={errors.last_name}
                   />
                 </Grid>
               </Grid>
@@ -212,10 +215,12 @@ export const RegisterForm = () => {
                     InputLabelProps={{ shrink: true }}
                     fullWidth
                     required
-                    name="fechaNac"
+                    name="birth_date"
+                    value={values.birth_date}
                     onChange={handleChange}
-                    error={!valDate()}
-                    helperText={!valDate() ? (data.birthDate ? 'Debe ser mayor de 15 para poder registrarse' : 'El campo no puede estar vacío'):''}
+                    onBlur={handleBlur}
+                    error={touched.birth_date && Boolean(errors.birth_date)}
+                    helperText={errors.birth_date}
                   />
                 </Grid>
                 <Grid item xs={12} md={6}>
@@ -224,10 +229,12 @@ export const RegisterForm = () => {
                     variant="outlined"
                     fullWidth
                     required
-                    name="id"
+                    name="document_number"
+                    value={values.document_number}
                     onChange={handleChange}
-                    error={!valId()}
-                    helperText={!valId() ? (data.id ? 'La cedula debe contener solo numeros' : 'El campo no puede estar vacío'):''}
+                    onBlur={handleBlur}
+                    error={touched.document_number && Boolean(errors.document_number?.length)}
+                    helperText={errors.document_number}
                   />
                 </Grid>
               </Grid>
@@ -240,9 +247,11 @@ export const RegisterForm = () => {
                 fullWidth
                 required
                 name="email"
+                value={values.email}
                 onChange={handleChange}
-                error={!valEmail()}
-                helperText={!valEmail() ? (data.email ? 'Debe insertar un correo valido' : 'El campo no puede estar vacío'):''}
+                onBlur={handleBlur}
+                error={touched.email && Boolean(errors.email?.length)}
+                helperText={errors.email}
                 style={{ marginBottom: "20px" }}
               />
               <TextField
@@ -250,10 +259,12 @@ export const RegisterForm = () => {
                 variant="outlined"
                 fullWidth
                 required
-                name="telefono"
+                name="phone_number"
+                value={values.phone_number}
                 onChange={handleChange}
-                error={!valPhone()}
-                helperText={!valPhone() ? (data.phone ? 'El telefono debe contener solo numeros' : 'El campo no puede estar vacío'):''}
+                onBlur={handleBlur}
+                error={touched.phone_number && Boolean(errors.phone_number?.length)}
+                helperText={errors.phone_number}
                 style={{ marginBottom: "20px" }}
               />
               <TextField
@@ -263,9 +274,11 @@ export const RegisterForm = () => {
                 fullWidth
                 required
                 name="password"
+                value={values.password}
                 onChange={handleChange}
-                error={!valPassword()}
-                helperText={!valPassword() ? (data.password ? 'La contraseña debe tener al menos 8 caracteres, al menos una letra mayúscula, una letra minúscula, un número' : 'El campo no puede estar vacío'):''}
+                onBlur={handleBlur}
+                error={touched.password && Boolean(errors.password?.length)}
+                helperText={errors.password}
                 style={{ marginBottom: "20px" }}
               />
               <TextField
@@ -275,14 +288,15 @@ export const RegisterForm = () => {
                 fullWidth
                 required
                 name="confirm"
-                onChange={handleChange}
-                error={!valConfirm()}
-                helperText={!valConfirm() ? (data.confirm ? 'El campo debe ser igual al de contraseña' : 'El campo no puede estar vacío'):''}
+                onChange={handleConfirm}
+                error={touched.password && !valConfirm()}
+                helperText={!valConfirm() ?  'El campo debe ser igual al de contraseña' :''}
                 style={{ marginBottom: "20px" }}
               />
-              <Button variant="contained" fullWidth style={buttonStyle}>
+              <Button type="submit" variant="contained" fullWidth style={buttonStyle}>
                 Registrarse
               </Button>
+              </form>
               <Typography style={textstyle}>
                 ¿Ya tienes una cuenta? Inicia Sesión{" "}
                 <Typography component={Link} to="/login" style={linkTextStyle}>
