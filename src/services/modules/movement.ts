@@ -24,9 +24,8 @@ export const getMovementsApi = async(page:number, page_size:number) =>{
 
     try {
         const response = await instance.get(`/v1/client/movement`, {params:{page:page, page_size:page_size}});
-        const serviceResponse = response.data;
-        const headersResponse = response.headers
-        return {serviceResponse, headersResponse}
+        const serviceResponse = response;
+        return serviceResponse;
     } catch (error) {
         const errors = error as AxiosError;
         if (errors.response) {
@@ -34,7 +33,7 @@ export const getMovementsApi = async(page:number, page_size:number) =>{
         } else {
             console.log("apiHttp -> error", error)
         }
-        return null
+        return errors.response
     }
 };
 
