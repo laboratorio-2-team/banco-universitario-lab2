@@ -8,9 +8,9 @@ import { Logo } from "@components/Logo"
 
 export const Header = () => {
     return (
-        <Box className="flex flex-row flex-nowrap justify-between">
+        <Box className="h-full flex flex-row flex-nowrap justify-between items-center">
             <Box className="flex flex-row flex-nowrap items-center gap-24 ">
-                <Logo className="max-w-[186px]" />
+                <Logo className="!max-w-[186px]" />
                 <Typography variant='h6' className="!font-semibold !text-[28px] !text-primary-50">
 
                 </Typography>

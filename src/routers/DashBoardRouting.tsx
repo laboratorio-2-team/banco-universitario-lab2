@@ -12,5 +12,17 @@ export const dashBoardRouting: RouteObject[] = [
                 }
             }
         ]
-    }
+    },
+    {
+        path: "/history",
+        children: [
+            {
+                path: "",
+                lazy: async () => {
+                    const { HistoryPage } = await import("../pages/dashboard")
+                    return { Component: HistoryPage }
+                }
+            }
+        ]
+    },
 ]
