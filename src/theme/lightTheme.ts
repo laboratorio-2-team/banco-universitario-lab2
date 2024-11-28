@@ -47,8 +47,10 @@ export const lightTheme: Theme = createTheme({
     grey: {
       "200": "#9C9C9C",
       "300": "#7B809A",
+      "400": "#F5F7FA",
       "500": "#F2F4F7",
       "600": "#FFFFFF",
+      "700": "#B1B1B1",
     },
   }),
 });
