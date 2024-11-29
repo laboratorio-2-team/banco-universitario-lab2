@@ -14,6 +14,10 @@ export const TransferHistory = () => {
     if (!date) return ""
     return new Date(date).toLocaleDateString("es", { hour12: true, month: "short", hour: "2-digit", minute: "2-digit", day: "2-digit", year: "numeric" });
   };
+  const formatCurrency = (amount: number) => {
+    if (!amount) return 0
+    return new Intl.NumberFormat("es-VE").format(amount);
+  }
   const handleChangePage = (e: unknown, newPage: number) => {
     setPage(newPage);
   };
@@ -60,9 +64,9 @@ export const TransferHistory = () => {
                   </TableCell>
                   <TableCell align="center">{`# ${data.id}` || ""}</TableCell>
                   <TableCell align="center">{formatDate(data?.updated_at) || ""}</TableCell>
-                  <TableCell className="!text-[#085F63] !font-bold" align="center">{`${data.balance} Bs` || ""}</TableCell>
+                  <TableCell className="!text-[#085F63] !font-bold" align="center">{`${formatCurrency(data.balance)} Bs` || ""}</TableCell>
                   <TableCell align="center" style={{ color: `${data.multiplier === -1 ? "#F93652" : "#0AB087"}` }}>
-                    {`${data.multiplier === 1 ? "+" : "-"} ${data.amount}` || ""}
+                    {`${data.multiplier === 1 ? "+" : "-"} ${formatCurrency(data.amount)}` || ""}
                   </TableCell>
                 </TableRow>
               ))
