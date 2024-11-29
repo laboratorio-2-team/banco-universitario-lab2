@@ -1,4 +1,4 @@
-import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow } from "@mui/material"
+import { MenuItem, Paper, Select, SelectChangeEvent, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow } from "@mui/material"
 import { useEffect, useState } from "react"
 import { getMovementsApi } from "../../../services/modules/movement";
 import ArrowCircleUpOutlinedIcon from '@mui/icons-material/ArrowCircleUpOutlined';
@@ -9,7 +9,8 @@ export const TransferHistory = () => {
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [page_count, setPageCount] = useState(0);
   const [trasferData, setTrasferData] = useState([]);
-
+  const [multiplierFilter, setMultiplierFilter] = useState(0);
+  
   const formatDate = (date: string) => {
     if (!date) return ""
     return new Date(date).toLocaleDateString("es", { hour12: true, month: "short", hour: "2-digit", minute: "2-digit", day: "2-digit", year: "numeric" });
@@ -26,9 +27,11 @@ export const TransferHistory = () => {
     setRowsPerPage(+e.target.value);
     setPage(0);
   };
-
+  const handleMultiplierChange = (event: SelectChangeEvent) => {
+    setMultiplierFilter(+event.target.value);
+  }
   useEffect(() => {
-    getMovementsApi(page + 1, rowsPerPage).then(res => {
+    getMovementsApi(page + 1, rowsPerPage, multiplierFilter).then(res => {
       if (!res?.data?.errors?.length) {
         const { data } = res?.data;
         setPageCount(+res?.headers["x-pagination-page-count"]);
@@ -36,10 +39,21 @@ export const TransferHistory = () => {
       }
 
     });
-  }, [page, rowsPerPage]);
+  }, [page, rowsPerPage, multiplierFilter]);
 
   return (
     <>
+    <Select 
+    className="!flex !ml-auto !mr-[11.5vw] !bg-white w-1/6"
+    value={multiplierFilter.toString()} 
+    labelId="filter"
+    id="multiplierFilter"
+    label="Filtrar movimientos" 
+    onChange={handleMultiplierChange}>
+      <MenuItem value={0}>Todos</MenuItem>
+      <MenuItem value={-1}>Débitos</MenuItem>
+      <MenuItem value={1}>Créditos</MenuItem>
+    </Select>
       <TableContainer className="flex !w-2/3 !justify-center ml-[16vw]" component={Paper}>
         <Table>
           <TableHead>
