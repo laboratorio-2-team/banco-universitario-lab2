@@ -1,16 +1,25 @@
-import { Grid, Paper, Typography, TextField, Button } from "@mui/material";
+import { Grid, Paper, Typography, TextField, Button, Snackbar, SnackbarCloseReason } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import { GlobalStyles } from "@mui/material";
 import img1 from "@assets/coverRegister.png";
 import logo from '@assets/logo-no-background.png'
 import { Link, useNavigate } from "react-router-dom";
-import React, { useState } from "react";
 import { FromRegister, initialValuesRegister, validationSchemaRegister } from "../../../schemas/";
 import { FormikHelpers, useFormik } from "formik";
 import { loginApi, registerApi } from "../../../services/modules/auth";
+import { useState } from "react";
 export const RegisterForm = () => {
   const theme = useTheme(); // Acceso al tema de Material UI
   const navigate = useNavigate();
+  const [messageState, setMessageState] = useState(false);
+  const [message, setMessage] = useState("");
+  const handleClose = (event: React.SyntheticEvent | Event, reason: SnackbarCloseReason) => {
+    setMessageState(false);
+  };
+  const formatDate = (date:string) => {
+    if (!date) return ""
+    return new Date(date).toISOString();
+  };
   // Estilos personalizados usando el tema
 
   const titlestyle = {
@@ -41,29 +50,25 @@ export const RegisterForm = () => {
     backgroundColor: "#49BEB7",
     color: "#fff",
   };
-  const [confirm, setConfirm] = useState("");
-
-  const handleConfirm = (e:React.ChangeEvent<HTMLInputElement>) =>{
-    setConfirm(e.target.value);
-  }
+  
   const onSubmit = (values: FromRegister, formikHelpers:FormikHelpers<FromRegister>) => {
-    formikHelpers.resetForm();
-    console.log(errors);
-    values.birth_date += "T14:40:04.341364Z"; //TODO change this
-    console.log(values);
-    if (!errors.first_name && !errors.last_name && !errors.birth_date && !errors.document_number && !errors.email && !errors.phone_number && !errors.password && valConfirm()){
-      registerApi(values).then(res =>{
-        const { errors, message, data } = res;
-        if (errors.length){
-          alert(message)
+    values.birth_date = formatDate(values.birth_date);
+    if (!errors.first_name && !errors.last_name && !errors.birth_date && !errors.document_number && !errors.email && !errors.phone_number && !errors.password && !errors.confirm){
+      formikHelpers.resetForm();
+      const apiValues = { first_name:values.first_name, last_name:values.last_name, document_number:values.document_number, birth_date:values.birth_date, phone_number:values.phone_number, email:values.email, password:values.password };
+      registerApi(apiValues).then(res =>{
+        const { data, errors } = res;
+        if (data.errors?.length || errors.length){
+          setMessage(data.message);
+          setMessageState(true);
         }
-        else if (data){
+        else {
           const { email } = data;
           const loginValues = { email:email, password:values.password }
           loginApi(loginValues).then(res => {
-            const { errors , data } = res;
+            const { errors, message } = res;
           if (errors.length){
-            alert(data.message);
+            alert(message);
           }
           else{
             navigate("/dashboard");
@@ -80,11 +85,6 @@ export const RegisterForm = () => {
     onSubmit
   })
 
-  const valConfirm = ()=>{
-    
-    if (!confirm || !values.password) return false
-    return values.password === confirm
-  }
   return (
     <>
       <GlobalStyles
@@ -288,9 +288,11 @@ export const RegisterForm = () => {
                 fullWidth
                 required
                 name="confirm"
-                onChange={handleConfirm}
-                error={touched.password && !valConfirm()}
-                helperText={!valConfirm() ?  'El campo debe ser igual al de contraseña' :''}
+                value={values.confirm}
+                onBlur={handleBlur}
+                onChange={handleChange}
+                error={touched.confirm && Boolean(errors.confirm?.length)}
+                helperText={errors.confirm ?  'El campo debe ser igual al de contraseña' :''}
                 style={{ marginBottom: "20px" }}
               />
               <Button type="submit" variant="contained" fullWidth style={buttonStyle}>
@@ -306,6 +308,13 @@ export const RegisterForm = () => {
             </Paper>
           </Grid>
         </Grid>
+        <Snackbar 
+          open={messageState}
+          message={message}
+          onClose={handleClose}
+          autoHideDuration={2500}
+          ContentProps={{sx:{backgroundColor:"#085F63"}}}
+        />
       </Paper>
     </>
   );

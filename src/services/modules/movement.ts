@@ -8,7 +8,7 @@ interface TransferData{
     "description":string
 }
 
-export const getMovementsApi = async(page:number, page_size:number) =>{
+export const getMovementsApi = async(page:number, page_size:number, multiplier?:number) =>{
     instance.interceptors.request.use(
         (config) =>{
             const accessToken = getJWT();
@@ -23,7 +23,14 @@ export const getMovementsApi = async(page:number, page_size:number) =>{
     );
 
     try {
-        const response = await instance.get(`/v1/client/movement`, {params:{page:page, page_size:page_size}});
+        let params;
+        if (multiplier){
+            params = {page:page, page_size:page_size, multiplier:multiplier};
+        }
+        else {
+            params = {page:page, page_size:page_size};
+        }
+        const response = await instance.get(`/v1/client/movement`, {params:params});
         const serviceResponse = response;
         return serviceResponse;
     } catch (error) {

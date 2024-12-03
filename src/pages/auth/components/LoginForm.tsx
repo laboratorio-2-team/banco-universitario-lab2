@@ -6,6 +6,8 @@ import {
   Button,
   Switch,
   FormControlLabel,
+  Snackbar,
+  SnackbarCloseReason,
 } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import backgroundImage from "@assets/Background-Image.png";
@@ -20,19 +22,24 @@ import { FromValues, initialValues, validationSchema } from '../../../schemas';
 export const LoginForm: React.FC = () => {
   const theme = useTheme();
   const [rememberMe, setRememberMe] = useState<boolean>(false);
+  const [messageState, setMessageState] = useState(false);
+  const [message, setMessage] = useState("");
   const navigate = useNavigate();
   const handleToggle = () => {
     setRememberMe((prev) => !prev);
   };
-
+  const handleClose = (event: React.SyntheticEvent | Event, reason: SnackbarCloseReason) => {
+    setMessageState(false);
+  };
   const onSubmit = (values: FromValues, formikHelpers: FormikHelpers<FromValues>) => {
-    formikHelpers.resetForm();
     console.log(errors);
     if (!errors.email && !errors.password) {
+      formikHelpers.resetForm();
       loginApi(values).then(res => {
-        const { errors , data } = res;
-        if (errors.length) {
-          alert(data.message);
+        const { data, errors } = res;
+        if (data.errors?.length || errors?.length) {
+          setMessage(data.message);
+          setMessageState(true);
         }
         else {
           navigate("/dashboard");
@@ -209,6 +216,13 @@ export const LoginForm: React.FC = () => {
             </Typography>{" "}
           </Typography>
         </Paper>
+        <Snackbar
+          open={messageState}
+          message={message}
+          onClose={handleClose}
+          autoHideDuration={2500}
+          ContentProps={{sx:{backgroundColor:"#085F63"}}}
+        />
       </div>
     </>
   );

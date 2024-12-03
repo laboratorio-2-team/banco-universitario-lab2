@@ -1,4 +1,4 @@
-import { Schema, object, string } from "yup";
+import { Schema, object, string, ref } from "yup";
 
 export interface FromRegister {
   first_name: string;
@@ -8,6 +8,7 @@ export interface FromRegister {
   phone_number: string;
   email: string;
   password: string;
+  confirm: string;
 }
 
 export const initialValuesRegister: FromRegister = {
@@ -18,6 +19,7 @@ export const initialValuesRegister: FromRegister = {
   phone_number: "",
   email: "",
   password: "",
+  confirm: ""
 };
 
 export const validationSchemaRegister: Schema = object({
@@ -42,4 +44,5 @@ export const validationSchemaRegister: Schema = object({
     }),
   email: string().email().required("Requerido"),
   password: string().min(8).required("Requerido"),
+  confirm: string().oneOf([ref("password")]).required("Requerido")
 });
