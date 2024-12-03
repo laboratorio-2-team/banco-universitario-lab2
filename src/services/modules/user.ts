@@ -32,7 +32,7 @@ export const whoImIApi = async () =>{
         } else {
             console.log("apiHttp -> error", error)
         }
-        return null
+        return errors.response
     }
 };
 
@@ -61,7 +61,7 @@ export const getBalanceApi = async() =>{
         } else {
             console.log("apiHttp -> error", error)
         }
-        return null
+        return errors.response
     }
 };
 
@@ -90,7 +90,7 @@ export const findUserApi = async(account_number:string) =>{
         } else {
             console.log("apiHttp -> error", error)
         }
-        return null
+        return errors.response
     }
 };
 
@@ -119,6 +119,6 @@ export const changePasswordApi = async(changePasswordInfo:ChangePasswordData) =>
         } else {
             console.log("apiHttp -> error", error)
         }
-        return null
+        return errors.response
     }
 };
