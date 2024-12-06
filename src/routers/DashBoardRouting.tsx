@@ -56,5 +56,17 @@ export const dashBoardRouting: RouteObject[] = [
                 }
             }
         ]
+    },
+    {
+        path: "/transfer",
+        children: [
+            {
+                path:"",
+                lazy: async () => {
+                    const { TransferPage } = await import("../pages/dashboard")
+                    return { Component: TransferPage }
+                }
+            }
+        ]
     }
 ]
