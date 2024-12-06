@@ -3,7 +3,7 @@ import HistoryIcon from '@mui/icons-material/History';
 import PersonIcon from '@mui/icons-material/Person';
 import SettingsIcon from '@mui/icons-material/Settings';
 import PaidIcon from '@mui/icons-material/Paid';
-import { DASHBOARD_ROUTE, HISTORY_ROUTE } from "@pages/dashboard";
+import { CONFIG_ROUTE, CONTACTS_ROUTE, DASHBOARD_ROUTE, HISTORY_ROUTE } from "@pages/dashboard";
 
 export const pathList = [
     {
@@ -17,18 +17,18 @@ export const pathList = [
         icon: <HistoryIcon />
     },
     {
-        to: '',
+        to: CONTACTS_ROUTE,
         text: 'Contactos',
         icon: <PersonIcon />
     },
     {
-        to: '',
+        to: CONFIG_ROUTE,
         text: 'Configuración',
         icon: <SettingsIcon />
     },
     {
         to: '',
-        text: 'Transfererir',
+        text: 'Transferir',
         icon: <PaidIcon />
     },
 ]

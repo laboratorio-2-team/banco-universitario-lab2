@@ -35,7 +35,7 @@ export const createContactApi = async(contactInfo:ContactData) =>{
         } else {
             console.log("apiHttp -> error", error)
         }
-        return null
+        return errors.response
     }
 };
 
@@ -64,7 +64,7 @@ export const updateContactApi = async(contactInfo:UContactData, id:number)=>{
         } else {
             console.log("apiHttp -> error", error)
         }
-        return null
+        return errors.response
     }
 };
 
@@ -93,7 +93,7 @@ export const deleteContactApi = async(id:number) =>{
         } else {
             console.log("apiHttp -> error", error)
         }
-        return null
+        return errors.response
     }
 };
 
@@ -122,11 +122,11 @@ export const getContact = async(id:number) =>{
         } else {
             console.log("apiHttp -> error", error)
         }
-        return null
+        return errors.response
     }
 };
 
-export const getContacts = async(page:number, page_size:number) =>{
+export const getContacts = async(page:number, page_size:number, alias?:string) =>{
     instance.interceptors.request.use(
         (config) =>{
             const accessToken = getJWT();
@@ -139,12 +139,17 @@ export const getContacts = async(page:number, page_size:number) =>{
             return Promise.reject(error);
         }
     );
-
+    let params;
+    if (alias) {
+        params = {page:page, page_size:page_size, alias:alias}
+    }
+    else {
+        params = {page:page, page_size:page_size}
+    }
     try {
-        const response = await instance.get(`/v1/client/contact`, {params:{page:page, page_size:page_size}});
-        const serviceResponse = response.data;
-        const headersResponse = response.headers;
-        return {serviceResponse, headersResponse}
+        const response = await instance.get(`/v1/client/contact`, {params:params});
+        const serviceResponse = response;
+        return serviceResponse;
     } catch (error) {
         const errors = error as AxiosError;
         if (errors.response) {
@@ -152,6 +157,6 @@ export const getContacts = async(page:number, page_size:number) =>{
         } else {
             console.log("apiHttp -> error", error)
         }
-        return null
+        return errors.response
     }
 }

@@ -1,3 +1,4 @@
+import { CREATE_ROUTE } from "@pages/index";
 import { RouteObject } from "react-router-dom";
 
 export const dashBoardRouting: RouteObject[] = [
@@ -25,4 +26,35 @@ export const dashBoardRouting: RouteObject[] = [
             }
         ]
     },
+    {
+        path: "/config",
+        children: [
+            {
+                path:"",
+                lazy: async () => {
+                    const { ConfigPage } = await import("../pages/dashboard")
+                    return { Component: ConfigPage }
+                }
+            }
+        ]
+    },
+    {
+        path: "/contacts",
+        children: [
+            {
+                path:"",
+                lazy: async () => {
+                    const { ContactsPage } = await import("../pages/dashboard")
+                    return { Component: ContactsPage }
+                }
+            },
+            {
+                path:`/contacts${CREATE_ROUTE}`,
+                lazy: async () => {
+                    const { CreateContactPage } = await import("../pages/dashboard")
+                    return { Component: CreateContactPage }
+                }
+            }
+        ]
+    }
 ]
