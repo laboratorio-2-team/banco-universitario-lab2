@@ -77,7 +77,7 @@ export const CreateContact = () => {
             error={touched.description && Boolean(errors.description?.length)}
             helperText={errors.description}
           />
-          <Button className="!flex w-36 !ml-auto !mr-8 !mb-6 !bg-[#085F63] !text-[white]" type="submit">
+          <Button className="!flex w-36 !ml-auto !mr-12 !my-6 !bg-[#085F63] !text-[white]" type="submit">
             Guardar
           </Button>
         </form>

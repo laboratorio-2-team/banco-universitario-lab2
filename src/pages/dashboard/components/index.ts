@@ -2,3 +2,7 @@ export * from './TransferHistory';
 export * from './ChangePassword';
 export * from './ContactsDirectory';
 export * from './CreateContact';
+export * from './CreateTrasfer';
+export * from './ConfirmTransfer';
+export * from './ResultTransfer';
+export * from './EditContact';
