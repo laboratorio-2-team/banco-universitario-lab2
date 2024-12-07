@@ -14,6 +14,8 @@ export const RegisterForm = () => {
   const [messageState, setMessageState] = useState(false);
   const [message, setMessage] = useState("");
   const handleClose = (event: React.SyntheticEvent | Event, reason: SnackbarCloseReason) => {
+    console.log({ event, reason });
+
     setMessageState(false);
   };
   const formatDate = (date:string) => {

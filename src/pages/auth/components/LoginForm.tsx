@@ -29,6 +29,9 @@ export const LoginForm: React.FC = () => {
     setRememberMe((prev) => !prev);
   };
   const handleClose = (event: React.SyntheticEvent | Event, reason: SnackbarCloseReason) => {
+
+    console.log({ event, reason });
+
     setMessageState(false);
   };
   const onSubmit = (values: FromValues, formikHelpers: FormikHelpers<FromValues>) => {
@@ -46,7 +49,7 @@ export const LoginForm: React.FC = () => {
         }
       });
     }
-}
+  }
   const { errors, touched, values, handleSubmit, handleBlur, handleChange } = useFormik({
     initialValues,
     validationSchema,
@@ -160,53 +163,53 @@ export const LoginForm: React.FC = () => {
           </Grid>
 
           <form onSubmit={handleSubmit}>
-              <TextField
-                className="!pb-4"
-                label="Correo"
-                variant="outlined"
-                type="email"
-                name="email"
-                value={values.email}
-                onChange={handleChange}
-                error={touched.email && Boolean(errors.email?.length)}
-                onBlur={handleBlur}
-                fullWidth
-                required
-              />
-              <TextField
-                className="!pb-4"
-                label="Contraseña"
-                type="password"
-                variant="outlined"
-                name="password"
-                value={values.password}
-                onChange={handleChange}
-                error={touched.password && Boolean(errors.password?.length)}
-                onBlur={handleBlur}
-                fullWidth
-                required
-              />
-              <FormControlLabel
-                control={
-                  <Switch
-                    checked={rememberMe}
-                    onChange={handleToggle}
-                    color="primary"
-                  />
-                }
-                label={
-                  <Typography
-                    variant="body1"
-                    style={{ fontSize: "0.9rem", color: "#7B809A" }}
-                  >
-                    Recuerdame
-                  </Typography>
-                }
-              />
-          {/* Botón de inicio de sesión */}
-          <Button type="submit" variant="contained" fullWidth style={buttonStyle} >
-            Iniciar Sesión
-          </Button>
+            <TextField
+              className="!pb-4"
+              label="Correo"
+              variant="outlined"
+              type="email"
+              name="email"
+              value={values.email}
+              onChange={handleChange}
+              error={touched.email && Boolean(errors.email?.length)}
+              onBlur={handleBlur}
+              fullWidth
+              required
+            />
+            <TextField
+              className="!pb-4"
+              label="Contraseña"
+              type="password"
+              variant="outlined"
+              name="password"
+              value={values.password}
+              onChange={handleChange}
+              error={touched.password && Boolean(errors.password?.length)}
+              onBlur={handleBlur}
+              fullWidth
+              required
+            />
+            <FormControlLabel
+              control={
+                <Switch
+                  checked={rememberMe}
+                  onChange={handleToggle}
+                  color="primary"
+                />
+              }
+              label={
+                <Typography
+                  variant="body1"
+                  style={{ fontSize: "0.9rem", color: "#7B809A" }}
+                >
+                  Recuerdame
+                </Typography>
+              }
+            />
+            {/* Botón de inicio de sesión */}
+            <Button type="submit" variant="contained" fullWidth style={buttonStyle} >
+              Iniciar Sesión
+            </Button>
           </form>
 
           <Typography style={textstyle}>
@@ -221,7 +224,7 @@ export const LoginForm: React.FC = () => {
           message={message}
           onClose={handleClose}
           autoHideDuration={2500}
-          ContentProps={{sx:{backgroundColor:"#085F63"}}}
+          ContentProps={{ sx: { backgroundColor: "#085F63" } }}
         />
       </div>
     </>

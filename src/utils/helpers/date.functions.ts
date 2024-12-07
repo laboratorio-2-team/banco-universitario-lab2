@@ -5,5 +5,7 @@ export const formatDate = (
   actualFormat: FormatDate,
   newFormate: FormatDate
 ) => {
+  console.log({ date, actualFormat, newFormate });
+
   return "";
 };

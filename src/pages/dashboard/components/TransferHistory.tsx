@@ -4,13 +4,22 @@ import { getMovementsApi } from "../../../services/modules/movement";
 import ArrowCircleUpOutlinedIcon from '@mui/icons-material/ArrowCircleUpOutlined';
 import ArrowCircleDownOutlinedIcon from '@mui/icons-material/ArrowCircleDownOutlined';
 
+interface Response {
+  id: string,
+  description: string,
+  amount: number,
+  balance: number,
+  multiplier: number,
+  updated_at: string
+}
+
 export const TransferHistory = () => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [page_count, setPageCount] = useState(0);
   const [trasferData, setTrasferData] = useState([]);
   const [multiplierFilter, setMultiplierFilter] = useState(0);
-  
+
   const formatDate = (date: string) => {
     if (!date) return ""
     return new Date(date).toLocaleDateString("es", { hour12: true, month: "short", hour: "2-digit", minute: "2-digit", day: "2-digit", year: "numeric" });
@@ -20,6 +29,8 @@ export const TransferHistory = () => {
     return new Intl.NumberFormat("es-VE").format(amount);
   }
   const handleChangePage = (e: unknown, newPage: number) => {
+    console.log({ e });
+
     setPage(newPage);
   };
   const handleChangeRowsPerPage = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -33,6 +44,7 @@ export const TransferHistory = () => {
   useEffect(() => {
     getMovementsApi(page + 1, rowsPerPage, multiplierFilter).then(res => {
       if (!res?.data?.errors?.length) {
+        // eslint-disable-next-line no-unsafe-optional-chaining
         const { data } = res?.data;
         setPageCount(+res?.headers["x-pagination-page-count"]);
         setTrasferData(data);
@@ -43,17 +55,17 @@ export const TransferHistory = () => {
 
   return (
     <>
-    <Select 
-    className="!flex !ml-auto !mr-[11.5vw] !bg-white w-1/6"
-    value={multiplierFilter.toString()} 
-    labelId="filter"
-    id="multiplierFilter"
-    label="Filtrar movimientos" 
-    onChange={handleMultiplierChange}>
-      <MenuItem value={0}>Todos</MenuItem>
-      <MenuItem value={-1}>Débitos</MenuItem>
-      <MenuItem value={1}>Créditos</MenuItem>
-    </Select>
+      <Select
+        className="!flex !ml-auto !mr-[11.5vw] !bg-white w-1/6"
+        value={multiplierFilter.toString()}
+        labelId="filter"
+        id="multiplierFilter"
+        label="Filtrar movimientos"
+        onChange={handleMultiplierChange}>
+        <MenuItem value={0}>Todos</MenuItem>
+        <MenuItem value={-1}>Débitos</MenuItem>
+        <MenuItem value={1}>Créditos</MenuItem>
+      </Select>
       <TableContainer className="flex !w-2/3 !justify-center ml-[16vw]" component={Paper}>
         <Table>
           <TableHead>
@@ -67,7 +79,7 @@ export const TransferHistory = () => {
           </TableHead>
           <TableBody>
             {
-              trasferData.map((data: any) => (
+              trasferData.map((data: Response) => (
                 <TableRow key={data.id}>
                   <TableCell align="center">
                     <div className="flex !flex-row">
