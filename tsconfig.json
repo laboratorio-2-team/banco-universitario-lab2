@@ -18,6 +18,14 @@
       "@assets/*": ["./src/assets/*"],
       "@hooks": ["./src/utils/hooks"],
       "@hooks/*": ["./src/utils/hooks/*"],
+      "@store": ["./src/store"],
+      "@store/*": ["./src/store/*"],
+      "@config": ["./src/config"],
+      "@config/*": ["./src/config/*"],
+      "@services": ["./src/services"],
+      "@services/*": ["./src/services/*"],
+      "@interfaces": ["./src/interfaces"],
+      "@interfaces/*": ["./src/interfaces/*"],
     },
 
     /* Bundler mode */

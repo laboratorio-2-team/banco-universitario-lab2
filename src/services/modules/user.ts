@@ -1,124 +1,95 @@
-import { AxiosError } from "axios";
-import { getJWT } from "../../utils/localStorage";
 import instance from "../api";
+import { BalanceResponse, UserResponse } from "@interfaces/auth.interface";
+import { ResponseInterface } from "@interfaces/response.interface";
+import { getJWT } from "@services/localStorage.service";
 
 interface ChangePasswordData {
-    "password":string,
-    "new_password":string
+  password: string;
+  new_password: string;
 }
 
-export const whoImIApi = async () =>{
-    instance.interceptors.request.use(
-        (config) =>{
-            const accessToken = getJWT();
-            if (accessToken){
-                config.headers.Authorization = `Bearer ${accessToken}`
-            }
-            return config
-        },
-        (error) =>{
-            return Promise.reject(error);
-        }
-    );
-    
-    try {
-        const response = await instance.get(`/v1/client/user/whoami`);
-        const serviceResponse = response.data;
-        return serviceResponse;
-    } catch (error) {
-        const errors = error as AxiosError;
-        if (errors.response) {
-            console.log("apiHttp -> error.response", errors.response)
-        } else {
-            console.log("apiHttp -> error", error)
-        }
-        return errors.response
+export const whoImIApi = async () => {
+  instance.interceptors.request.use(
+    (config) => {
+      const accessToken = getJWT();
+      if (accessToken) {
+        config.headers.Authorization = `Bearer ${accessToken}`;
+      }
+      return config;
+    },
+    (error) => {
+      return Promise.reject(error);
     }
+  );
+
+  const response = await instance.get<UserResponse>(`/v1/client/user/whoami`);
+  return response.data;
 };
 
-export const getBalanceApi = async() =>{
-    instance.interceptors.request.use(
-        (config) =>{
-            const accessToken = getJWT();
-            if (accessToken){
-                config.headers.Authorization = `Bearer ${accessToken}`
-            }
-            return config
-        },
-        (error) =>{
-            return Promise.reject(error);
-        }
-    );
-
-    try {
-    const response = await instance.get(`/v1/client/user/balance`);
-    const serviceResponse = response.data;
-    return serviceResponse;
-    } catch (error) {
-        const errors = error as AxiosError;
-        if (errors.response) {
-            console.log("apiHttp -> error.response", errors.response)
-        } else {
-            console.log("apiHttp -> error", error)
-        }
-        return errors.response
+export const getBalanceApi = async () => {
+  instance.interceptors.request.use(
+    (config) => {
+      const accessToken = getJWT();
+      if (accessToken) {
+        config.headers.Authorization = `Bearer ${accessToken}`;
+      }
+      return config;
+    },
+    (error) => {
+      return Promise.reject(error);
     }
+  );
+
+  const response = await instance.get<BalanceResponse>(
+    `/v1/client/user/balance`
+  );
+  const serviceResponse = response.data;
+  return serviceResponse;
 };
 
-export const findUserApi = async(account_number:string) =>{
-    instance.interceptors.request.use(
-        (config) =>{
-            const accessToken = getJWT();
-            if (accessToken){
-                config.headers.Authorization = `Bearer ${accessToken}`;
-            }
-            return config
-        },
-        (error) =>{
-            return Promise.reject(error);
-        }
-    );
-
-    try {
-        const response = await instance.get(`/v1/client/user/account/`, {params:{account_number:account_number}});
-        const serviceResponse = response.data;
-        return serviceResponse;
-    } catch (error) {
-        const errors = error as AxiosError;
-        if (errors.response) {
-            console.log("apiHttp -> error.response", errors.response)
-        } else {
-            console.log("apiHttp -> error", error)
-        }
-        return errors.response
+export const findUserApi = async (account_number: string) => {
+  instance.interceptors.request.use(
+    (config) => {
+      const accessToken = getJWT();
+      if (accessToken) {
+        config.headers.Authorization = `Bearer ${accessToken}`;
+      }
+      return config;
+    },
+    (error) => {
+      return Promise.reject(error);
     }
+  );
+
+  const response = await instance.get<UserResponse>(
+    `/v1/client/user/account/`,
+    {
+      params: { account_number: account_number },
+    }
+  );
+  const serviceResponse = response.data;
+  return serviceResponse;
 };
 
-export const changePasswordApi = async(changePasswordInfo:ChangePasswordData) =>{
-    instance.interceptors.request.use(
-        (config) =>{
-            const accessToken = getJWT();
-            if (accessToken){
-                config.headers.Authorization = `Bearer ${accessToken}`;
-            }
-            return config
-        },
-        (error) =>{
-            return Promise.reject(error);
-        }
-    );
-
-    try {
-        const response = await instance.patch(`/v1/client/user/password`, changePasswordInfo);
-        const serviceResponse = response.data;
-        return serviceResponse;
-    } catch (error) {
-        const errors = error as AxiosError;
-        if (errors.response) {
-            console.log("apiHttp -> error.response", errors.response)
-        } else {
-            console.log("apiHttp -> error", error)
-        }
-        return errors.response
+export const changePasswordApi = async (
+  changePasswordInfo: ChangePasswordData
+) => {
+  instance.interceptors.request.use(
+    (config) => {
+      const accessToken = getJWT();
+      if (accessToken) {
+        config.headers.Authorization = `Bearer ${accessToken}`;
+      }
+      return config;
+    },
+    (error) => {
+      return Promise.reject(error);
     }
+  );
+
+  const response = await instance.patch<ResponseInterface<null>>(
+    `/v1/client/user/password`,
+    changePasswordInfo
+  );
+  return response.data;
 };

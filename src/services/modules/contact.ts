@@ -1,162 +1,135 @@
-import { AxiosError } from "axios";
-import { getJWT } from "../../utils/localStorage";
+import { getJWT } from "@services/localStorage.service";
 import instance from "../api";
-interface ContactData{
-    "alias":string,
-    "account_number":string,
-    "description":string
-}
-interface UContactData{
-    "alias":string,
-    "description":string
-}
-export const createContactApi = async(contactInfo:ContactData) =>{
-    instance.interceptors.request.use(
-        (config) =>{
-            const accessToken = getJWT();
-            if (accessToken){
-                config.headers.Authorization = `Bearer ${accessToken}`
-            }
-            return config
-        },
-        (error) =>{
-            return Promise.reject(error);
-        }
-    );
+import {
+  ContactResponse,
+  CreateContactParam,
+  UpdateContactParam,
+  ContactListResponse,
+  GetContactsListParam,
+} from "@interfaces/contact.interface";
 
-    try {
-        const response = await instance.post(`/v1/client/contact`, contactInfo);
-        const serviceResponse = response.data;
-        return serviceResponse
-    } catch (error) {
-        const errors = error as AxiosError;
-        if (errors.response) {
-            console.log("apiHttp -> error.response", errors.response)
-        } else {
-            console.log("apiHttp -> error", error)
-        }
-        return errors.response
+export const createContactApi = async (contactInfo: CreateContactParam) => {
+  instance.interceptors.request.use(
+    (config) => {
+      const accessToken = getJWT();
+      if (accessToken) {
+        config.headers.Authorization = `Bearer ${accessToken}`;
+      }
+      return config;
+    },
+    (error) => {
+      return Promise.reject(error);
     }
+  );
+
+  const response = await instance.post<ContactResponse>(
+    `/v1/client/contact`,
+    contactInfo
+  );
+  const serviceResponse = response.data;
+  return serviceResponse;
 };
 
-export const updateContactApi = async(contactInfo:UContactData, id:number)=>{
-    instance.interceptors.request.use(
-        (config) =>{
-            const accessToken = getJWT();
-            if (accessToken){
-                config.headers.Authorization = `Bearer ${accessToken}`
-            }
-            return config
-        },
-        (error) =>{
-            return Promise.reject(error);
-        }
-    );
+export const updateContactApi = async (contactInfo: UpdateContactParam) => {
+  const { id, ...infoContact } = contactInfo;
 
-    try {
-        const response = await instance.patch(`/v1/client/contact`, contactInfo, {params:{id:id}});
-        const serviceResponse = response.data;
-        return serviceResponse
-    } catch (error) {
-        const errors = error as AxiosError;
-        if (errors.response) {
-            console.log("apiHttp -> error.response", errors.response)
-        } else {
-            console.log("apiHttp -> error", error)
-        }
-        return errors.response
+  instance.interceptors.request.use(
+    (config) => {
+      const accessToken = getJWT();
+      if (accessToken) {
+        config.headers.Authorization = `Bearer ${accessToken}`;
+      }
+      return config;
+    },
+    (error) => {
+      return Promise.reject(error);
     }
+  );
+
+  const response = await instance.patch<ContactResponse>(
+    `/v1/client/contact`,
+    infoContact,
+    {
+      params: { id: id },
+    }
+  );
+  const serviceResponse = response.data;
+  return serviceResponse;
 };
 
-export const deleteContactApi = async(id:number) =>{
-    instance.interceptors.request.use(
-        (config) =>{
-            const accessToken = getJWT();
-            if (accessToken){
-                config.headers.Authorization = `Bearer ${accessToken}`
-            }
-            return config
-        },
-        (error) =>{
-            return Promise.reject(error);
-        }
-    );
-
-    try {
-        const response = await instance.delete(`/v1/client/contact`, {params:{id:id}});
-        const serviceResponse = response.data;
-        return serviceResponse
-    } catch (error) {
-        const errors = error as AxiosError;
-        if (errors.response) {
-            console.log("apiHttp -> error.response", errors.response)
-        } else {
-            console.log("apiHttp -> error", error)
-        }
-        return errors.response
+export const deleteContactApi = async (id: number) => {
+  instance.interceptors.request.use(
+    (config) => {
+      const accessToken = getJWT();
+      if (accessToken) {
+        config.headers.Authorization = `Bearer ${accessToken}`;
+      }
+      return config;
+    },
+    (error) => {
+      return Promise.reject(error);
     }
+  );
+
+  const response = await instance.delete<ContactResponse>(
+    `/v1/client/contact`,
+    {
+      params: { id: id },
+    }
+  );
+  const serviceResponse = response.data;
+  return serviceResponse;
 };
 
-export const getContact = async(id:number) =>{
-    instance.interceptors.request.use(
-        (config) =>{
-            const accessToken = getJWT();
-            if (accessToken){
-                config.headers.Authorization = `Bearer ${accessToken}`
-            }
-            return config
-        },
-        (error) =>{
-            return Promise.reject(error);
-        }
-    );
-
-    try {
-        const response = await instance.get(`/v1/client/contact`, {params:{id:id}});
-        const serviceResponse = response.data;
-        return serviceResponse
-    } catch (error) {
-        const errors = error as AxiosError;
-        if (errors.response) {
-            console.log("apiHttp -> error.response", errors.response)
-        } else {
-            console.log("apiHttp -> error", error)
-        }
-        return errors.response
+export const getContact = async (id: number) => {
+  instance.interceptors.request.use(
+    (config) => {
+      const accessToken = getJWT();
+      if (accessToken) {
+        config.headers.Authorization = `Bearer ${accessToken}`;
+      }
+      return config;
+    },
+    (error) => {
+      return Promise.reject(error);
     }
+  );
+
+  const response = await instance.get<ContactResponse>(`/v1/client/contact`, {
+    params: { id: id },
+  });
+  const serviceResponse = response.data;
+  return serviceResponse;
 };
 
-export const getContacts = async(page:number, page_size:number, alias?:string) =>{
-    instance.interceptors.request.use(
-        (config) =>{
-            const accessToken = getJWT();
-            if (accessToken){
-                config.headers.Authorization = `Bearer ${accessToken}`
-            }
-            return config
-        },
-        (error) =>{
-            return Promise.reject(error);
-        }
-    );
-    let params;
-    if (alias) {
-        params = {page:page, page_size:page_size, alias:alias}
+export const getContacts = async (contactsParama: GetContactsListParam) => {
+  const { page, page_size, alias } = contactsParama;
+
+  instance.interceptors.request.use(
+    (config) => {
+      const accessToken = getJWT();
+      if (accessToken) {
+        config.headers.Authorization = `Bearer ${accessToken}`;
+      }
+      return config;
+    },
+    (error) => {
+      return Promise.reject(error);
     }
-    else {
-        params = {page:page, page_size:page_size}
+  );
+  let params;
+  if (alias) {
+    params = { page: page, page_size: page_size, alias: alias };
+  } else {
+    params = { page: page, page_size: page_size };
+  }
+
+  const response = await instance.get<ContactListResponse>(
+    `/v1/client/contact`,
+    {
+      params: params,
     }
-    try {
-        const response = await instance.get(`/v1/client/contact`, {params:params});
-        const serviceResponse = response;
-        return serviceResponse;
-    } catch (error) {
-        const errors = error as AxiosError;
-        if (errors.response) {
-            console.log("apiHttp -> error.response", errors.response)
-        } else {
-            console.log("apiHttp -> error", error)
-        }
-        return errors.response
-    }
-}
+  );
+  const serviceResponse = response;
+  return serviceResponse;
+};
