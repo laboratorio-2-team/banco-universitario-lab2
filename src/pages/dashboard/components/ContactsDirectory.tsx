@@ -37,7 +37,6 @@ export const ContactsDirectory = () => {
   };
   useEffect(() => {
     getContacts(page + 1, rowsPerPage, alias).then(res => {
-      console.log(res);
       if (!res?.data?.errors?.length) {
         // eslint-disable-next-line no-unsafe-optional-chaining
         const { data } = res?.data;
