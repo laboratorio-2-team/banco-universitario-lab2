@@ -1,74 +1,64 @@
-import { AxiosError } from "axios";
-import { getJWT } from "../../utils/localStorage";
 import instance from "../api";
+import {
+  GetMovementsParams,
+  ResponseMovements,
+  ResponseTransfer,
+  TransferParams,
+} from "@interfaces/movements.interface";
+import { getJWT } from "@services/localStorage.service";
 
-interface TransferData{
-    "amount":number,
-    "account_number":string,
-    "description":string
-}
+export const getMovementsApi = async (
+  movementsParams: GetMovementsParams
+): Promise<ResponseMovements> => {
+  const { page, page_size, multiplier } = movementsParams;
 
-export const getMovementsApi = async(page:number, page_size:number, multiplier?:number) =>{
-    instance.interceptors.request.use(
-        (config) =>{
-            const accessToken = getJWT();
-            if (accessToken){
-                config.headers.Authorization = `Bearer ${accessToken}`
-            }
-            return config
-        },
-        (error) =>{
-            return Promise.reject(error);
-        }
-    );
-
-    try {
-        let params;
-        if (multiplier){
-            params = {page:page, page_size:page_size, multiplier:multiplier};
-        }
-        else {
-            params = {page:page, page_size:page_size};
-        }
-        const response = await instance.get(`/v1/client/movement`, {params:params});
-        const serviceResponse = response;
-        return serviceResponse;
-    } catch (error) {
-        const errors = error as AxiosError;
-        if (errors.response) {
-            console.log("apiHttp -> error.response", errors.response)
-        } else {
-            console.log("apiHttp -> error", error)
-        }
-        return errors.response
+  instance.interceptors.request.use(
+    (config) => {
+      const accessToken = getJWT();
+      if (accessToken) {
+        config.headers.Authorization = `Bearer ${accessToken}`;
+      }
+      return config;
+    },
+    (error) => {
+      return Promise.reject(error);
     }
+  );
+
+  let params;
+  if (multiplier) {
+    params = { page: page, page_size: page_size, multiplier: multiplier };
+  } else {
+    params = { page: page, page_size: page_size };
+  }
+  const response = await instance.get<ResponseMovements>(
+    `/v1/client/movement`,
+    {
+      params: params,
+    }
+  );
+  const serviceResponse = response.data;
+  return serviceResponse;
 };
 
-export const createTransferApi = async(transferInfo:TransferData) =>{
-    instance.interceptors.request.use(
-        (config) =>{
-            const accessToken = getJWT();
-            if (accessToken){
-                config.headers.Authorization = `Bearer ${accessToken}`
-            }
-            return config
-        },
-        (error) =>{
-            return Promise.reject(error);
-        }
-    );
-
-    try {
-        const response = await instance.post(`/v1/client/movement`, transferInfo);
-        const serviceResponse = response.data;
-        return serviceResponse;
-    } catch (error) {
-        const errors = error as AxiosError;
-        if (errors.response) {
-            console.log("apiHttp -> error.response", errors.response)
-        } else {
-            console.log("apiHttp -> error", error)
-        }
-        return null
+export const createTransferApi = async (transferInfo: TransferParams) => {
+  instance.interceptors.request.use(
+    (config) => {
+      const accessToken = getJWT();
+      if (accessToken) {
+        config.headers.Authorization = `Bearer ${accessToken}`;
+      }
+      return config;
+    },
+    (error) => {
+      return Promise.reject(error);
     }
-}
+  );
+
+  const response = await instance.post<ResponseTransfer>(
+    `/v1/client/movement`,
+    transferInfo
+  );
+  const serviceResponse = response.data;
+  return serviceResponse;
+};
