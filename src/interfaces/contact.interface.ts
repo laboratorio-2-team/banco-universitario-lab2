@@ -1,4 +1,5 @@
 import { ResponseInterface } from "./response.interface";
+import { LoadingStates } from "./ui.interface";
 
 export interface CreateContactParam {
   alias: string;
@@ -24,6 +25,13 @@ export interface ContactData {
   created_at: string;
   id: number;
   updated_at: string;
+}
+
+export interface ContactsState {
+  contactsList: ContactData[];
+  contactSelected: ContactData | null;
+  status: LoadingStates;
+  error: string | null;
 }
 
 export interface ContactResponse extends ResponseInterface<ContactData> {}

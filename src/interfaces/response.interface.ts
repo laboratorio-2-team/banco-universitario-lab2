@@ -1,5 +1,5 @@
 export interface ResponseInterface<T> {
   data: T;
-  errors: [unknown];
-  messages: string;
+  errors: [{ error: string }];
+  message: string;
 }

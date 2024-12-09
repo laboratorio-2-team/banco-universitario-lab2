@@ -1,6 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import {
-  createTransferApi,
+  createContactApi,
   deleteContactApi,
   getContact,
   getContacts,
@@ -9,7 +9,7 @@ import {
 
 export const createContactAsync = createAsyncThunk(
   "contacts/createContact",
-  createTransferApi
+  createContactApi
 );
 
 export const updateContactAsync = createAsyncThunk(

@@ -1,11 +1,30 @@
+import { ContactsState } from "@interfaces/contact.interface";
 import { createSlice } from "@reduxjs/toolkit";
+import {
+  createContactReducer,
+  deleteContactReducer,
+  getContactReducer,
+  getContactsListReducer,
+  updateContactReducer,
+} from "@store/reducers";
+
+const initialState: ContactsState = {
+  contactsList: [],
+  error: null,
+  status: "idle",
+  contactSelected: null,
+};
 
 export const contactsSlice = createSlice({
-  name: "user",
-  initialState: {
-    user: null,
-  },
+  name: "contacts",
+  initialState,
   reducers: {},
 
-  extraReducers: (builder) => {},
+  extraReducers: (builder) => {
+    getContactsListReducer(builder);
+    createContactReducer(builder);
+    updateContactReducer(builder);
+    deleteContactReducer(builder);
+    getContactReducer(builder);
+  },
 });

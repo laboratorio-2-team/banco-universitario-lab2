@@ -15,11 +15,17 @@ import { GlobalStyles } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import logo from '@assets/logo-no-background.png'
-import { loginApi } from "../../../services/modules/auth";
 import { FormikHelpers, useFormik } from "formik";
 import { FromValues, initialValues, validationSchema } from '../../../schemas';
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "@store/store";
+import { AuthState } from "@interfaces/auth.interface";
+import { loginAsync } from "@store/async";
+import { LoadingStatesEnum } from "@config/constants";
 
 export const LoginForm: React.FC = () => {
+  const { status } = useSelector<RootState>((state) => state.auth) as AuthState;
+  const dispatch = useDispatch<AppDispatch>()
   const theme = useTheme();
   const [rememberMe, setRememberMe] = useState<boolean>(false);
   const [messageState, setMessageState] = useState(false);
@@ -34,23 +40,19 @@ export const LoginForm: React.FC = () => {
 
     setMessageState(false);
   };
-  const onSubmit = (values: FromValues, formikHelpers: FormikHelpers<FromValues>) => {
-    console.log(errors);
-    if (!errors.email && !errors.password) {
+  const onSubmit = async (values: FromValues, formikHelpers: FormikHelpers<FromValues>) => {
+    if (isValid) {
+
+      await dispatch(loginAsync(values));
+
       formikHelpers.resetForm();
-      loginApi(values).then(res => {
-        const { data, errors } = res;
-        if (data.errors?.length || errors?.length) {
-          setMessage(data.message);
-          setMessageState(true);
-        }
-        else {
-          navigate("/dashboard");
-        }
-      });
+
+      if (status === LoadingStatesEnum.SUCCEEDED) {
+        navigate("/dashboard");
+      }
     }
   }
-  const { errors, touched, values, handleSubmit, handleBlur, handleChange } = useFormik({
+  const { errors, touched, values, handleSubmit, handleBlur, handleChange, isValid } = useFormik({
     initialValues,
     validationSchema,
     onSubmit
