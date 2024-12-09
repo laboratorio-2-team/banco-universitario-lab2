@@ -8,7 +8,14 @@ import { FromRegister, initialValuesRegister, validationSchemaRegister } from ".
 import { FormikHelpers, useFormik } from "formik";
 import { loginApi, registerApi } from "../../../services/modules/auth";
 import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "@store/store";
+import { AuthState } from "@interfaces/auth.interface";
+import { loginAsync, registerAsync } from "@store/async";
 export const RegisterForm = () => {
+  const { status } = useSelector<RootState>((state) => state.auth) as AuthState;
+  const dispatch = useDispatch<AppDispatch>();
+
   const theme = useTheme(); // Acceso al tema de Material UI
   const navigate = useNavigate();
   const [messageState, setMessageState] = useState(false);
@@ -18,7 +25,7 @@ export const RegisterForm = () => {
 
     setMessageState(false);
   };
-  const formatDate = (date:string) => {
+  const formatDate = (date: string) => {
     if (!date) return ""
     return new Date(date).toISOString();
   };
@@ -52,38 +59,45 @@ export const RegisterForm = () => {
     backgroundColor: "#49BEB7",
     color: "#fff",
   };
-  
-  const onSubmit = (values: FromRegister, formikHelpers:FormikHelpers<FromRegister>) => {
+
+  const onSubmit = async (values: FromRegister, formikHelpers: FormikHelpers<FromRegister>) => {
     values.birth_date = formatDate(values.birth_date);
-    if (!errors.first_name && !errors.last_name && !errors.birth_date && !errors.document_number && !errors.email && !errors.phone_number && !errors.password && !errors.confirm){
+    if (!errors.first_name && !errors.last_name && !errors.birth_date && !errors.document_number && !errors.email && !errors.phone_number && !errors.password && !errors.confirm) {
       formikHelpers.resetForm();
-      const apiValues = { first_name:values.first_name, last_name:values.last_name, document_number:values.document_number, birth_date:values.birth_date, phone_number:values.phone_number, email:values.email, password:values.password };
-      registerApi(apiValues).then(res =>{
-        const { data, errors } = res;
-        if (data.errors?.length || errors.length){
-          setMessage(data.message);
-          setMessageState(true);
-        }
-        else {
-          const { email } = data;
-          const loginValues = { email:email, password:values.password }
-          loginApi(loginValues).then(res => {
-            const { errors, message } = res;
-          if (errors.length){
-            alert(message);
-          }
-          else{
-            navigate("/dashboard");
-          }
-          });
-        }
-      });
+      const apiValues = { first_name: values.first_name, last_name: values.last_name, document_number: values.document_number, birth_date: values.birth_date, phone_number: values.phone_number, email: values.email, password: values.password };
+
+      await dispatch(registerAsync(apiValues));
+      await dispatch(loginAsync({ email: values.email, password: values.password }));
+
+      if (status === 'succeeded') {
+        navigate('/dashboard');
+      }
+
+      // registerApi(apiValues).then(res => {
+      //   const { data, errors } = res;
+      //   if (data.errors?.length || errors.length) {
+      //     setMessage(data.message);
+      //     setMessageState(true);
+      //   }
+      //   else {
+      //     const { email } = data;
+      //     const loginValues = { email: email, password: values.password }
+      //     loginApi(loginValues).then(res => {
+      //       const { errors, message } = res;
+      //       if (errors.length) {
+      //         alert(message);
+      //       }
+      //       else {
+      //       }
+      //     });
+      //   }
+      // });
     }
   };
-  
-  const { errors, touched, values, handleSubmit, handleBlur, handleChange } = useFormik<FromRegister>({ 
-    initialValues:initialValuesRegister,
-    validationSchema:validationSchemaRegister,
+
+  const { errors, touched, values, handleSubmit, handleBlur, handleChange } = useFormik<FromRegister>({
+    initialValues: initialValuesRegister,
+    validationSchema: validationSchemaRegister,
     onSubmit
   })
 
@@ -98,7 +112,7 @@ export const RegisterForm = () => {
             width: "100%",
             margin: 0,
             padding: 0,
-            
+
           },
         }}
       />
@@ -175,131 +189,131 @@ export const RegisterForm = () => {
               </Grid>
 
               <form onSubmit={handleSubmit}>
-              {/* Fila para Nombre y Apellido */}
-              <Grid container spacing={2} style={{ marginBottom: "20px" }}>
-                <Grid item xs={12} md={6}>
-                  <TextField
-                    label="Nombre"
-                    variant="outlined"
-                    fullWidth
-                    required
-                    name="first_name"
-                    value={values.first_name}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    error={touched.first_name && Boolean(errors.first_name?.length)}
-                    helperText={errors.first_name}
-                  />
+                {/* Fila para Nombre y Apellido */}
+                <Grid container spacing={2} style={{ marginBottom: "20px" }}>
+                  <Grid item xs={12} md={6}>
+                    <TextField
+                      label="Nombre"
+                      variant="outlined"
+                      fullWidth
+                      required
+                      name="first_name"
+                      value={values.first_name}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      error={touched.first_name && Boolean(errors.first_name?.length)}
+                      helperText={errors.first_name}
+                    />
+                  </Grid>
+                  <Grid item xs={12} md={6}>
+                    <TextField
+                      label="Apellido"
+                      variant="outlined"
+                      fullWidth
+                      required
+                      name="last_name"
+                      value={values.last_name}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      error={touched.last_name && Boolean(errors.last_name?.length)}
+                      helperText={errors.last_name}
+                    />
+                  </Grid>
                 </Grid>
-                <Grid item xs={12} md={6}>
-                  <TextField
-                    label="Apellido"
-                    variant="outlined"
-                    fullWidth
-                    required
-                    name="last_name"
-                    value={values.last_name}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    error={touched.last_name && Boolean(errors.last_name?.length)}
-                    helperText={errors.last_name}
-                  />
-                </Grid>
-              </Grid>
 
-              {/* Fila para Fecha de Nacimiento y Documento de Identidad */}
-              <Grid container spacing={2} style={{ marginBottom: "20px" }}>
-                <Grid item xs={12} md={6}>
-                  <TextField
-                    label="Fecha de Nacimiento"
-                    type="date"
-                    variant="outlined"
-                    InputLabelProps={{ shrink: true }}
-                    fullWidth
-                    required
-                    name="birth_date"
-                    value={values.birth_date}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    error={touched.birth_date && Boolean(errors.birth_date)}
-                    helperText={errors.birth_date}
-                  />
+                {/* Fila para Fecha de Nacimiento y Documento de Identidad */}
+                <Grid container spacing={2} style={{ marginBottom: "20px" }}>
+                  <Grid item xs={12} md={6}>
+                    <TextField
+                      label="Fecha de Nacimiento"
+                      type="date"
+                      variant="outlined"
+                      InputLabelProps={{ shrink: true }}
+                      fullWidth
+                      required
+                      name="birth_date"
+                      value={values.birth_date}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      error={touched.birth_date && Boolean(errors.birth_date)}
+                      helperText={errors.birth_date}
+                    />
+                  </Grid>
+                  <Grid item xs={12} md={6}>
+                    <TextField
+                      label="Documento de Identidad"
+                      variant="outlined"
+                      fullWidth
+                      required
+                      name="document_number"
+                      value={values.document_number}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      error={touched.document_number && Boolean(errors.document_number?.length)}
+                      helperText={errors.document_number}
+                    />
+                  </Grid>
                 </Grid>
-                <Grid item xs={12} md={6}>
-                  <TextField
-                    label="Documento de Identidad"
-                    variant="outlined"
-                    fullWidth
-                    required
-                    name="document_number"
-                    value={values.document_number}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    error={touched.document_number && Boolean(errors.document_number?.length)}
-                    helperText={errors.document_number}
-                  />
-                </Grid>
-              </Grid>
 
-              {/* Campos restantes */}
-              <TextField
-                label="Correo"
-                variant="outlined"
-                type="email"
-                fullWidth
-                required
-                name="email"
-                value={values.email}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                error={touched.email && Boolean(errors.email?.length)}
-                helperText={errors.email}
-                style={{ marginBottom: "20px" }}
-              />
-              <TextField
-                label="Teléfono"
-                variant="outlined"
-                fullWidth
-                required
-                name="phone_number"
-                value={values.phone_number}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                error={touched.phone_number && Boolean(errors.phone_number?.length)}
-                helperText={errors.phone_number}
-                style={{ marginBottom: "20px" }}
-              />
-              <TextField
-                label="Contraseña"
-                type="password"
-                variant="outlined"
-                fullWidth
-                required
-                name="password"
-                value={values.password}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                error={touched.password && Boolean(errors.password?.length)}
-                helperText={errors.password}
-                style={{ marginBottom: "20px" }}
-              />
-              <TextField
-                label="Confirmar Contraseña"
-                type="password"
-                variant="outlined"
-                fullWidth
-                required
-                name="confirm"
-                value={values.confirm}
-                onBlur={handleBlur}
-                onChange={handleChange}
-                error={touched.confirm && Boolean(errors.confirm?.length)}
-                helperText={errors.confirm ?  'El campo debe ser igual al de contraseña' :''}
-                style={{ marginBottom: "20px" }}
-              />
-              <Button type="submit" variant="contained" fullWidth style={buttonStyle}>
-                Registrarse
-              </Button>
+                {/* Campos restantes */}
+                <TextField
+                  label="Correo"
+                  variant="outlined"
+                  type="email"
+                  fullWidth
+                  required
+                  name="email"
+                  value={values.email}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  error={touched.email && Boolean(errors.email?.length)}
+                  helperText={errors.email}
+                  style={{ marginBottom: "20px" }}
+                />
+                <TextField
+                  label="Teléfono"
+                  variant="outlined"
+                  fullWidth
+                  required
+                  name="phone_number"
+                  value={values.phone_number}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  error={touched.phone_number && Boolean(errors.phone_number?.length)}
+                  helperText={errors.phone_number}
+                  style={{ marginBottom: "20px" }}
+                />
+                <TextField
+                  label="Contraseña"
+                  type="password"
+                  variant="outlined"
+                  fullWidth
+                  required
+                  name="password"
+                  value={values.password}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  error={touched.password && Boolean(errors.password?.length)}
+                  helperText={errors.password}
+                  style={{ marginBottom: "20px" }}
+                />
+                <TextField
+                  label="Confirmar Contraseña"
+                  type="password"
+                  variant="outlined"
+                  fullWidth
+                  required
+                  name="confirm"
+                  value={values.confirm}
+                  onBlur={handleBlur}
+                  onChange={handleChange}
+                  error={touched.confirm && Boolean(errors.confirm?.length)}
+                  helperText={errors.confirm ? 'El campo debe ser igual al de contraseña' : ''}
+                  style={{ marginBottom: "20px" }}
+                />
+                <Button type="submit" variant="contained" fullWidth style={buttonStyle}>
+                  Registrarse
+                </Button>
               </form>
               <Typography style={textstyle}>
                 ¿Ya tienes una cuenta? Inicia Sesión{" "}
@@ -310,12 +324,12 @@ export const RegisterForm = () => {
             </Paper>
           </Grid>
         </Grid>
-        <Snackbar 
+        <Snackbar
           open={messageState}
           message={message}
           onClose={handleClose}
           autoHideDuration={2500}
-          ContentProps={{sx:{backgroundColor:"#085F63"}}}
+          ContentProps={{ sx: { backgroundColor: "#085F63" } }}
         />
       </Paper>
     </>

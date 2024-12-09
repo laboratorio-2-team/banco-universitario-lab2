@@ -6,7 +6,11 @@ import {
   loginAsync,
   registerAsync,
 } from "@store/async";
-import { AuthState } from "@interfaces/auth.interface";
+import { AuthResponse, AuthState } from "@interfaces/auth.interface";
+import {
+  errorNotification,
+  successNotification,
+} from "@services/notification.service";
 
 export function loginReducer(builder: ActionReducerMapBuilder<AuthState>) {
   const { addCase } = builder;
@@ -17,9 +21,10 @@ export function loginReducer(builder: ActionReducerMapBuilder<AuthState>) {
     state.user = null;
   });
 
-  addCase(loginAsync.fulfilled, (state, action) => {
+  addCase(loginAsync.fulfilled, (state, action, ) => {
     const { jwt, ...user } = action.payload.data;
 
+    successNotification(action.payload.message);
     setJWT(jwt);
 
     state.status = "idle";
@@ -28,8 +33,14 @@ export function loginReducer(builder: ActionReducerMapBuilder<AuthState>) {
   });
 
   addCase(loginAsync.rejected, (state, action) => {
+    const payload = action;
+
+    console.log({ payload });
+
     state.status = "failed";
     state.error = action.error.message as string;
+
+    errorNotification("Credenciales invalidas");
   });
 }
 
@@ -47,14 +58,18 @@ export function registerReducer(builder: ActionReducerMapBuilder<AuthState>) {
 
     setJWT(jwt);
 
-    state.status = "idle";
+    state.status = "succeeded";
     state.user = user;
     state.token = jwt;
+
+    successNotification(action.payload.message);
   });
 
   addCase(registerAsync.rejected, (state, action) => {
     state.status = "failed";
     state.error = action.error.message as string;
+
+    errorNotification("Error al registrar usuario");
   });
 }
 
@@ -67,14 +82,18 @@ export function userDataReducer(builder: ActionReducerMapBuilder<AuthState>) {
   });
 
   addCase(getUserDataAsync.fulfilled, (state, action) => {
-    state.status = "idle";
+    state.status = "succeeded";
     state.user = action.payload.data;
     state.token = getJWT();
+
+    successNotification(action.payload.message);
   });
 
   addCase(getUserDataAsync.rejected, (state, action) => {
     state.status = "failed";
     state.error = action.error.message as string;
+
+    errorNotification("Token Vencido");
   });
 }
 
@@ -88,12 +107,15 @@ export function changePasswordReducer(
     state.error = null;
   });
 
-  addCase(changePasswordAsync.fulfilled, (state) => {
-    state.status = "idle";
+  addCase(changePasswordAsync.fulfilled, (state, { payload }) => {
+    state.status = "succeeded";
+    successNotification(payload.message);
   });
 
   addCase(changePasswordAsync.rejected, (state, action) => {
     state.status = "failed";
     state.error = action.error.message as string;
+
+    errorNotification("Error al cambiar contraseña");
   });
 }

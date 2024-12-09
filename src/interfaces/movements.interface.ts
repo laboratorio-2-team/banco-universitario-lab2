@@ -1,4 +1,6 @@
+import { UserData } from "./auth.interface";
 import { ResponseInterface } from "./response.interface";
+import { LoadingStates } from "./ui.interface";
 
 export interface TransferParams {
   amount: number;
@@ -10,6 +12,14 @@ export interface GetMovementsParams {
   page: number;
   page_size: number;
   multiplier?: number;
+}
+
+export interface MovementsState {
+  movementsList: MovementsData[];
+  userBalance: number | null;
+  status: LoadingStates;
+  error: any;
+  userToTransfer: UserData | null;
 }
 
 export interface MovementsData {

@@ -1,6 +1,6 @@
 import { AuthState } from "@interfaces/auth.interface";
 import { createSlice } from "@reduxjs/toolkit";
-import { removeJWT } from "@services";
+import { getJWT, removeJWT } from "@services";
 import {
   loginReducer,
   registerReducer,
@@ -25,6 +25,9 @@ export const authSlice = createSlice({
       state.status = "idle";
       removeJWT();
     },
+    setToken : (state) => {
+      state.token = getJWT();
+    }
   },
   extraReducers: (builder) => {
     loginReducer(builder);
@@ -33,4 +36,4 @@ export const authSlice = createSlice({
   },
 });
 
-export const { logout } = authSlice.actions;
+export const { logout, setToken } = authSlice.actions;
