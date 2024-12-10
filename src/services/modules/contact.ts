@@ -47,11 +47,8 @@ export const updateContactApi = async (contactInfo: UpdateContactParam) => {
   );
 
   const response = await instance.patch<ContactResponse>(
-    `/v1/client/contact`,
-    infoContact,
-    {
-      params: { id: id },
-    }
+    `/v1/client/contact/${id}`,
+    infoContact
   );
   const serviceResponse = response.data;
   return serviceResponse;
@@ -72,10 +69,7 @@ export const deleteContactApi = async (id: number) => {
   );
 
   const response = await instance.delete<ContactResponse>(
-    `/v1/client/contact`,
-    {
-      params: { id: id },
-    }
+    `/v1/client/contact/${id}`,
   );
   const serviceResponse = response.data;
   return serviceResponse;
@@ -94,7 +88,7 @@ export const getContact = async (id: number) => {
       return Promise.reject(error);
     }
   );
-
+  console.log(id);
   const response = await instance.get<ContactResponse>(`/v1/client/contact`, {
     params: { id: id },
   });

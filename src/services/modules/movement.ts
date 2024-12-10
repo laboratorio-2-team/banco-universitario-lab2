@@ -9,7 +9,7 @@ import { getJWT } from "@services/localStorage.service";
 
 export const getMovementsApi = async (
   movementsParams: GetMovementsParams
-): Promise<ResponseMovements> => {
+) => {
   const { page, page_size, multiplier } = movementsParams;
 
   instance.interceptors.request.use(
@@ -37,7 +37,7 @@ export const getMovementsApi = async (
       params: params,
     }
   );
-  const serviceResponse = response.data;
+  const serviceResponse = response;
   return serviceResponse;
 };
 

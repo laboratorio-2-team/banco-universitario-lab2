@@ -6,10 +6,16 @@ import { useState } from "react";
 import { FromCreateContact, initialValuesContact, validationSchemaContact } from "../../../schemas/createContactSchema";
 import { FormikHelpers, useFormik } from "formik";
 import { createContactApi } from "../../../services/modules/contact";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "@store/store";
+import { ContactsState } from "@interfaces/contact.interface";
+import { createContactAsync } from "@store/async";
 
 export const CreateContact = () => {
   const theme = useTheme();
   const navigate = useNavigate();
+  const { status } = useSelector<RootState>((state) => state.contacts) as ContactsState;
+  const dispatch = useDispatch<AppDispatch>();
   const [messageState, setMessageState] = useState(false);
   const [message, setMessage] = useState("");
   const handleClose = (event: React.SyntheticEvent | Event, reason: SnackbarCloseReason) => {
@@ -17,19 +23,10 @@ export const CreateContact = () => {
 
     setMessageState(false);
   };
-  const onSubmit = (values: FromCreateContact, formikHelpers: FormikHelpers<FromCreateContact>) => {
+  const onSubmit = async (values: FromCreateContact, formikHelpers: FormikHelpers<FromCreateContact>) => {
     if (!errors.account_number && !errors.alias && !errors.description) {
       formikHelpers.resetForm();
-      createContactApi(values).then(res => {
-        const { message, data } = res;
-        if (data.errors?.length) {
-          setMessage(data.message)
-        }
-        else {
-          setMessage(message)
-        }
-        setMessageState(true);
-      })
+      await dispatch(createContactAsync(values));
     }
   };
   const { errors, touched, values, handleSubmit, handleBlur, handleChange } = useFormik<FromCreateContact>({

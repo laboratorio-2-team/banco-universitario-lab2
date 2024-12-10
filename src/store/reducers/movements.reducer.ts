@@ -97,7 +97,6 @@ export function createTransferReducer(
   addCase(createTransferAsync.fulfilled, (state, action) => {
     state.status = "succeeded";
     state.userBalance = action.payload.data.balance;
-    state.userToTransfer = null;
     successNotification(action.payload.message);
   });
 

@@ -18,7 +18,14 @@ const initialState: ContactsState = {
 export const contactsSlice = createSlice({
   name: "contacts",
   initialState,
-  reducers: {},
+  reducers: {
+    contact: (state, action) => {
+      state.contactSelected = action.payload;
+    },
+    removeContact: (state) => {
+      state.contactSelected = null;
+    }
+  },
 
   extraReducers: (builder) => {
     getContactsListReducer(builder);
@@ -28,3 +35,5 @@ export const contactsSlice = createSlice({
     getContactReducer(builder);
   },
 });
+
+export const { contact, removeContact } = contactsSlice.actions;

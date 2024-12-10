@@ -4,3 +4,6 @@ export * from "./ConfigPage";
 export * from "./ContactsPage";
 export * from "./CreateContactPage";
 export * from "./TransferPage";
+export * from "./ConfirmTransferPage";
+export * from "./ResultTransferPage";
+export * from "./EditContactPage";

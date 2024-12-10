@@ -62,10 +62,7 @@ export const findUserApi = async (account_number: string) => {
   );
 
   const response = await instance.get<UserResponse>(
-    `/v1/client/user/account/`,
-    {
-      params: { account_number: account_number },
-    }
+    `/v1/client/user/account/${account_number}`,
   );
   const serviceResponse = response.data;
   return serviceResponse;

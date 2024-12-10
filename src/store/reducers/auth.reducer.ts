@@ -27,7 +27,7 @@ export function loginReducer(builder: ActionReducerMapBuilder<AuthState>) {
     successNotification(action.payload.message);
     setJWT(jwt);
 
-    state.status = "idle";
+    state.status = "succeeded";
     state.user = user;
     state.token = jwt;
   });
@@ -86,7 +86,6 @@ export function userDataReducer(builder: ActionReducerMapBuilder<AuthState>) {
     state.user = action.payload.data;
     state.token = getJWT();
 
-    successNotification(action.payload.message);
   });
 
   addCase(getUserDataAsync.rejected, (state, action) => {
@@ -101,7 +100,7 @@ export function changePasswordReducer(
   builder: ActionReducerMapBuilder<AuthState>
 ) {
   const { addCase } = builder;
-
+  
   addCase(changePasswordAsync.pending, (state) => {
     state.status = "loading";
     state.error = null;

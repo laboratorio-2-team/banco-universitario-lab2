@@ -46,7 +46,6 @@ export const LoginForm: React.FC = () => {
       await dispatch(loginAsync(values));
 
       formikHelpers.resetForm();
-
       if (status === LoadingStatesEnum.SUCCEEDED) {
         navigate("/dashboard");
       }
