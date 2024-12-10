@@ -29,7 +29,7 @@ export const Dashboard = () => {
     last_name: "",
   });
   const [balanceData, setBalanceData] = useState<BalanceData | null>(null);
-  const [errorMessage, setErrorMessage] = useState<string>("");
+  const [errorMessage] = useState<string>("");
 
   const formatAccountNumber = (account: string) => {
     if (!account) return "";

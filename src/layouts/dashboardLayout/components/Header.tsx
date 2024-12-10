@@ -8,21 +8,22 @@ import { Logo } from "@components/Logo"
 import { useEffect, useState } from "react";
 import { removeJWT } from "../../../utils/localStorage";
 import { useNavigate } from "react-router-dom";
-import { whoImIApi } from "../../../services/modules/user";
-import { AuthState, UserData } from "@interfaces/auth.interface";
+import { AuthState } from "@interfaces/auth.interface";
 import { useDispatch, useSelector } from "react-redux";
 import { getUserDataAsync } from "@store/async";
 import { AppDispatch, RootState } from "@store/store";
-import { LoadingStatesEnum } from "@config/constants";
 
 export const Header = () => {
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
     const dispatch = useDispatch<AppDispatch>();
-    const { status, user } = useSelector<RootState>((state) => state.auth) as AuthState;
-    const [userData, setUser] = useState<Partial<UserData>>({account_number:"", birth_date:new Date(), document_number:"", email:"", first_name:"", last_name:"", phone_number:""});
+    const { user } = useSelector<RootState>((state) => state.auth) as AuthState;
+    // const [userData, setUser] = useState<Partial<UserData>>({ account_number: "", birth_date: new Date(), document_number: "", email: "", first_name: "", last_name: "", phone_number: "" });
     const navigate = useNavigate();
     const firstLetter = (word: string) => {
+
+
+
         if (!word) return ""
         return word[0];
     }
@@ -36,16 +37,10 @@ export const Header = () => {
         removeJWT();
         navigate("/login");
     };
-    const getUserData = async () => {
-        
-        console.log(user);
-        if (user) {
-            setUser(user);
-        }
-    }
+
     useEffect(() => {
         dispatch(getUserDataAsync());
-    },[dispatch])
+    }, [dispatch])
     return (
         <Box className="h-full flex flex-row flex-nowrap justify-between items-center">
             <Box className="flex flex-row flex-nowrap items-center gap-24 ">
@@ -70,17 +65,17 @@ export const Header = () => {
                 </Box>
                 <Avatar className="!bg-primary-50">{`${firstLetter(user?.first_name || " ") || "O"}${firstLetter(user?.last_name || " ") || "P"}`}</Avatar>
                 <Button
-                aria-controls={ open ? "basic_menu" : undefined}
-                aria-haspopup={ open ? true : undefined }
-                aria-expanded={ open ? true : undefined }
-                onClick={handleClick}
+                    aria-controls={open ? "basic_menu" : undefined}
+                    aria-haspopup={open ? true : undefined}
+                    aria-expanded={open ? true : undefined}
+                    onClick={handleClick}
                 >
-                    <ArrowDownwardIcon style={{ color: "#085F63" }}/>
+                    <ArrowDownwardIcon style={{ color: "#085F63" }} />
                 </Button>
                 <Menu
-                anchorEl={anchorEl}
-                open={open}
-                onClose={handleClose}
+                    anchorEl={anchorEl}
+                    open={open}
+                    onClose={handleClose}
                 >
                     <MenuItem onClick={handleLogOut}>Cerrar Sesión</MenuItem>
                 </Menu>

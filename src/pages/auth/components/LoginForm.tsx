@@ -29,7 +29,7 @@ export const LoginForm: React.FC = () => {
   const theme = useTheme();
   const [rememberMe, setRememberMe] = useState<boolean>(false);
   const [messageState, setMessageState] = useState(false);
-  const [message, setMessage] = useState("");
+  const [message] = useState("");
   const navigate = useNavigate();
   const handleToggle = () => {
     setRememberMe((prev) => !prev);

@@ -6,7 +6,7 @@ import {
   loginAsync,
   registerAsync,
 } from "@store/async";
-import { AuthResponse, AuthState } from "@interfaces/auth.interface";
+import { AuthState } from "@interfaces/auth.interface";
 import {
   errorNotification,
   successNotification,
@@ -21,7 +21,7 @@ export function loginReducer(builder: ActionReducerMapBuilder<AuthState>) {
     state.user = null;
   });
 
-  addCase(loginAsync.fulfilled, (state, action, ) => {
+  addCase(loginAsync.fulfilled, (state, action) => {
     const { jwt, ...user } = action.payload.data;
 
     successNotification(action.payload.message);
@@ -85,7 +85,6 @@ export function userDataReducer(builder: ActionReducerMapBuilder<AuthState>) {
     state.status = "succeeded";
     state.user = action.payload.data;
     state.token = getJWT();
-
   });
 
   addCase(getUserDataAsync.rejected, (state, action) => {
@@ -100,7 +99,7 @@ export function changePasswordReducer(
   builder: ActionReducerMapBuilder<AuthState>
 ) {
   const { addCase } = builder;
-  
+
   addCase(changePasswordAsync.pending, (state) => {
     state.status = "loading";
     state.error = null;

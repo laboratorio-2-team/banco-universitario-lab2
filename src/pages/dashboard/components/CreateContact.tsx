@@ -5,19 +5,17 @@ import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { FromCreateContact, initialValuesContact, validationSchemaContact } from "../../../schemas/createContactSchema";
 import { FormikHelpers, useFormik } from "formik";
-import { createContactApi } from "../../../services/modules/contact";
-import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "@store/store";
-import { ContactsState } from "@interfaces/contact.interface";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "@store/store";
 import { createContactAsync } from "@store/async";
 
 export const CreateContact = () => {
   const theme = useTheme();
   const navigate = useNavigate();
-  const { status } = useSelector<RootState>((state) => state.contacts) as ContactsState;
+  // const { status } = useSelector<RootState>((state) => state.contacts) as ContactsState;
   const dispatch = useDispatch<AppDispatch>();
   const [messageState, setMessageState] = useState(false);
-  const [message, setMessage] = useState("");
+  const [message] = useState("");
   const handleClose = (event: React.SyntheticEvent | Event, reason: SnackbarCloseReason) => {
     console.log({ event, reason });
 

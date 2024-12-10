@@ -2,7 +2,6 @@ import { Box, Button, Paper, Snackbar, SnackbarCloseReason, TextField, Typograph
 import { useTheme } from "styled-components"
 import { FromPassword, initialValuesPassword, validationSchemaPassword } from "../../../schemas";
 import { FormikHelpers, useFormik } from "formik";
-import { changePasswordApi } from "../../../services/modules/user";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@store/store";

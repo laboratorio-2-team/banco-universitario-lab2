@@ -73,8 +73,8 @@ export function getMovementsListReducer(
 
   addCase(getMovementsAsync.fulfilled, (state, action) => {
     state.status = "succeeded";
-    state.movementsList = action.payload.data;
-    successNotification(action.payload.message);
+    state.movementsList = action.payload.data.data;
+    successNotification('Movimientos obtenidos con éxito');
   });
 
   addCase(getMovementsAsync.rejected, (state, action) => {

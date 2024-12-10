@@ -6,7 +6,6 @@ import logo from '@assets/logo-no-background.png'
 import { Link, useNavigate } from "react-router-dom";
 import { FromRegister, initialValuesRegister, validationSchemaRegister } from "../../../schemas/";
 import { FormikHelpers, useFormik } from "formik";
-import { loginApi, registerApi } from "../../../services/modules/auth";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@store/store";
@@ -19,7 +18,7 @@ export const RegisterForm = () => {
   const theme = useTheme(); // Acceso al tema de Material UI
   const navigate = useNavigate();
   const [messageState, setMessageState] = useState(false);
-  const [message, setMessage] = useState("");
+  const [message] = useState("");
   const handleClose = (event: React.SyntheticEvent | Event, reason: SnackbarCloseReason) => {
     console.log({ event, reason });
 
