@@ -1,8 +1,6 @@
-
-export const DASHBOARD_ROUTE = 'dashboard'
+export const DASHBOARD_ROUTE = "dashboard";
+import { Dashboard } from "./components";
 
 export const DashboardPage = () => {
-  return (
-    <div>Dashboard Page</div>
-  )
-}
+  return <Dashboard />;
+};

@@ -6,3 +6,4 @@ export * from './CreateTrasfer';
 export * from './ConfirmTransfer';
 export * from './ResultTransfer';
 export * from './EditContact';
+export * from './Dashboard';
