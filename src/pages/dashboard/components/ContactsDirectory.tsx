@@ -5,8 +5,10 @@ import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import AddIcon from '@mui/icons-material/Add';
 import { useTheme } from "styled-components";
 import { useNavigate } from "react-router-dom";
-
-interface Response { id: string, alias: string, description: string, account_number: string }
+import { ContactData } from "@interfaces/contact.interface";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "@store/store";
+import { contact } from "@store/slices";
 
 export const ContactsDirectory = () => {
   const theme = useTheme();
@@ -14,8 +16,9 @@ export const ContactsDirectory = () => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [page_count, setPageCount] = useState(0);
-  const [contactsData, setContactsData] = useState<Response[]>([]);
+  const [contactsData, setContactsData] = useState<ContactData[]>([]);
   const [alias, setAlias] = useState("");
+  const dispatch = useDispatch<AppDispatch>();
 
   const formatAccountNumber = (account: string) => {
     if (!account) return ""
@@ -35,8 +38,13 @@ export const ContactsDirectory = () => {
     setRowsPerPage(+e.target.value);
     setPage(0);
   };
+  const handleClick = (selected: ContactData) => {
+    dispatch(contact(selected));
+    navigate("/contacts/edit");
+  };
   useEffect(() => {
-    getContacts(page + 1, rowsPerPage, alias).then(res => {
+    const params = { page: page+1, page_size: rowsPerPage, alias: alias };
+    getContacts(params).then(res => {
       if (!res?.data?.errors?.length) {
         // eslint-disable-next-line no-unsafe-optional-chaining
         const { data } = res?.data;
@@ -74,13 +82,13 @@ export const ContactsDirectory = () => {
           </TableHead>
           <TableBody>
             {
-              contactsData.map((data: Response) => (
+              contactsData.map((data) => (
                 <TableRow key={data.id}>
                   <TableCell align="center">{data.alias}</TableCell>
                   <TableCell align="center">{data.description}</TableCell>
                   <TableCell align="center">{formatAccountNumber(data.account_number)}</TableCell>
                   <TableCell align="center">
-                    <Button className="!text-[#49BEB7] !font-bold">
+                    <Button className="!text-[#49BEB7] !font-bold" onClick={()=>{handleClick(data)}}>
                       Ver Detalle
                       <ArrowForwardIosIcon style={{ color: "#49BEB7", marginLeft: "10px" }} />
                     </Button>

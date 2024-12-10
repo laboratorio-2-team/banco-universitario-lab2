@@ -4,30 +4,36 @@ import { FromPassword, initialValuesPassword, validationSchemaPassword } from ".
 import { FormikHelpers, useFormik } from "formik";
 import { changePasswordApi } from "../../../services/modules/user";
 import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "@store/store";
+import { AuthState } from "@interfaces/auth.interface";
+import { changePasswordAsync } from "@store/async";
+import { LoadingStatesEnum } from "@config/constants";
 export const ChangePassword = () => {
     const theme = useTheme();
     const [messageState, setMessageState] = useState(false);
     const [message, setMessage] = useState("");
+    const dispatch = useDispatch<AppDispatch>();
+    const { status } = useSelector<RootState>((state) => state.auth) as AuthState;
     const handleClose = (event: React.SyntheticEvent | Event, reason: SnackbarCloseReason) => {
         console.log({ event, reason });
 
         setMessageState(false);
     };
 
-    const onSubmit = (values: FromPassword, formikHelpers: FormikHelpers<FromPassword>) => {
+    const onSubmit = async (values: FromPassword, formikHelpers: FormikHelpers<FromPassword>) => {
         if (!errors.password && !errors.new_password && !errors.confirm) {
             formikHelpers.resetForm();
             const apiValues = { password: values.password, new_password: values.new_password };
-            changePasswordApi(apiValues).then(res => {
-                const { data, message } = res;
-                if (data) {
-                    setMessage(data.message)
-                }
-                else {
-                    setMessage(message)
-                }
-                setMessageState(true);
-            })
+            await dispatch(changePasswordAsync(apiValues));
+            console.log(status);
+            if (status === LoadingStatesEnum.SUCCEEDED) {
+                setMessage("Contraseña cambiada con éxito")
+            }
+            else {
+                setMessage("Error al cambiar contraseña");
+            }
+            setMessageState(true);
         }
     };
     const { errors, touched, values, handleSubmit, handleBlur, handleChange } = useFormik<FromPassword>({

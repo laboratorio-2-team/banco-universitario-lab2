@@ -20,6 +20,7 @@ export interface MovementsState {
   status: LoadingStates;
   error: any;
   userToTransfer: UserData | null;
+  transferData: TransferParams | null;
 }
 
 export interface MovementsData {

@@ -3,23 +3,14 @@ import { useEffect, useState } from "react"
 import { getMovementsApi } from "../../../services/modules/movement";
 import ArrowCircleUpOutlinedIcon from '@mui/icons-material/ArrowCircleUpOutlined';
 import ArrowCircleDownOutlinedIcon from '@mui/icons-material/ArrowCircleDownOutlined';
-
-interface Response {
-  id: string,
-  description: string,
-  amount: number,
-  balance: number,
-  multiplier: number,
-  updated_at: string
-}
+import { GetMovementsParams, MovementsData } from "@interfaces/movements.interface";
 
 export const TransferHistory = () => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [page_count, setPageCount] = useState(0);
-  const [trasferData, setTrasferData] = useState([]);
   const [multiplierFilter, setMultiplierFilter] = useState(0);
-
+  const [transferData, setTransferData] = useState<MovementsData[]>([]);
   const formatDate = (date: string) => {
     if (!date) return ""
     return new Date(date).toLocaleDateString("es", { hour12: true, month: "short", hour: "2-digit", minute: "2-digit", day: "2-digit", year: "numeric" });
@@ -40,16 +31,16 @@ export const TransferHistory = () => {
   };
   const handleMultiplierChange = (event: SelectChangeEvent) => {
     setMultiplierFilter(+event.target.value);
-  }
+  };
+  
   useEffect(() => {
-    getMovementsApi(page + 1, rowsPerPage, multiplierFilter).then(res => {
+    const params:GetMovementsParams = { page:page+1, page_size:rowsPerPage, multiplier:multiplierFilter }
+    getMovementsApi(params).then(res => {
       if (!res?.data?.errors?.length) {
-        // eslint-disable-next-line no-unsafe-optional-chaining
         const { data } = res?.data;
         setPageCount(+res?.headers["x-pagination-page-count"]);
-        setTrasferData(data);
+        setTransferData(data);
       }
-
     });
   }, [page, rowsPerPage, multiplierFilter]);
 
@@ -79,7 +70,7 @@ export const TransferHistory = () => {
           </TableHead>
           <TableBody>
             {
-              trasferData.map((data: Response) => (
+              transferData.map((data) => (
                 <TableRow key={data.id}>
                   <TableCell align="center">
                     <div className="flex !flex-row">

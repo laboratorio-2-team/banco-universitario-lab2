@@ -12,12 +12,21 @@ const initialState: MovementsState = {
   status: "idle",
   userBalance: null,
   userToTransfer: null,
+  transferData: null
 };
 
 export const movementsSlice = createSlice({
   name: "movements",
   initialState,
-  reducers: {},
+  reducers: {
+    transfer: (state, action) => {
+      state.transferData = action.payload;
+    },
+    removeTransfer: (state) => {
+      state.transferData = null;
+      state.userToTransfer = null;
+    },
+  },
 
   extraReducers: (builder) => {
     getBalanceReducer(builder);
@@ -25,3 +34,5 @@ export const movementsSlice = createSlice({
     getMovementsListReducer(builder);
   },
 });
+
+export const { transfer, removeTransfer } = movementsSlice.actions;

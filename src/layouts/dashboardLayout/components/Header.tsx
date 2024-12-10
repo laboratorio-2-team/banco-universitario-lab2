@@ -9,11 +9,18 @@ import { useEffect, useState } from "react";
 import { removeJWT } from "../../../utils/localStorage";
 import { useNavigate } from "react-router-dom";
 import { whoImIApi } from "../../../services/modules/user";
-interface ResponseWhoImI { account_number: string, birth_date: string, document_number: string, email: string, first_name: string, last_name: string, phone_number: string }
+import { AuthState, UserData } from "@interfaces/auth.interface";
+import { useDispatch, useSelector } from "react-redux";
+import { getUserDataAsync } from "@store/async";
+import { AppDispatch, RootState } from "@store/store";
+import { LoadingStatesEnum } from "@config/constants";
+
 export const Header = () => {
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
-    const [user, setUser] = useState<ResponseWhoImI>({account_number:"", birth_date:"", document_number:"", email:"", first_name:"", last_name:"", phone_number:""});
+    const dispatch = useDispatch<AppDispatch>();
+    const { status, user } = useSelector<RootState>((state) => state.auth) as AuthState;
+    const [userData, setUser] = useState<Partial<UserData>>({account_number:"", birth_date:new Date(), document_number:"", email:"", first_name:"", last_name:"", phone_number:""});
     const navigate = useNavigate();
     const firstLetter = (word: string) => {
         if (!word) return ""
@@ -29,14 +36,16 @@ export const Header = () => {
         removeJWT();
         navigate("/login");
     };
+    const getUserData = async () => {
+        
+        console.log(user);
+        if (user) {
+            setUser(user);
+        }
+    }
     useEffect(() => {
-        whoImIApi().then(res => {
-            if (!res?.data?.errors?.length) {
-                const { data } = res;
-                setUser(data);
-            }
-        })
-    },[])
+        dispatch(getUserDataAsync());
+    },[dispatch])
     return (
         <Box className="h-full flex flex-row flex-nowrap justify-between items-center">
             <Box className="flex flex-row flex-nowrap items-center gap-24 ">
@@ -56,10 +65,10 @@ export const Header = () => {
                 <Box className="flex flex-row flex-nowrap items-center">
                     <PersonOutlineOutlinedIcon color="primary" />
                     <Typography>
-                        {`${user.first_name || "Jhon"} ${user.last_name || "Doe"}`}
+                        {`${user?.first_name || "Jhon"} ${user?.last_name || "Doe"}`}
                     </Typography>
                 </Box>
-                <Avatar className="!bg-primary-50">{`${firstLetter(user.first_name) || "O"}${firstLetter(user.last_name) || "P"}`}</Avatar>
+                <Avatar className="!bg-primary-50">{`${firstLetter(user?.first_name || " ") || "O"}${firstLetter(user?.last_name || " ") || "P"}`}</Avatar>
                 <Button
                 aria-controls={ open ? "basic_menu" : undefined}
                 aria-haspopup={ open ? true : undefined }

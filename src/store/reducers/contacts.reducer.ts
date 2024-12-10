@@ -24,7 +24,7 @@ export function getContactsListReducer(
 
   addCase(getContactsListAsync.fulfilled, (state, action) => {
     const { data } = action.payload.data;
-
+    console.log(data);
     state.status = "succeeded";
     state.contactsList = data;
 
@@ -135,7 +135,7 @@ export function getContactReducer(
   addCase(getContactAsync.fulfilled, (state, action) => {
     state.status = "succeeded";
     state.contactSelected = action.payload.data;
-
+    
     successNotification(action.payload.message);
   });
 
