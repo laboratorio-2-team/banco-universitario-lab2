@@ -45,7 +45,7 @@ export const Dashboard = () => {
   useEffect(() => {
     whoImIApi()
       .then((res) => {
-        if (res && !res?.data?.errors?.length) {
+        if (res && !res.errors?.length) {
           const { data } = res;
           setUser(data);
         }
@@ -55,7 +55,7 @@ export const Dashboard = () => {
       });
     getBalanceApi()
       .then((res) => {
-        if (res && !res?.data?.errors?.length) {
+        if (res && !res?.errors?.length) {
           const { data } = res;
           setBalanceData(data);
         }

@@ -1,6 +1,6 @@
 import CheckCircleOutlinedIcon from '@mui/icons-material/CheckCircleOutlined';
 import CancelIcon from '@mui/icons-material/Cancel';
-import { Box, Button, Paper, Typography } from '@mui/material';
+import { Box, Button, Paper, TextField, Typography } from '@mui/material';
 import { useTheme } from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
 import { MovementsState } from '@interfaces/movements.interface';
@@ -10,6 +10,9 @@ import { removeTransfer } from '@store/slices';
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { LoadingStatesEnum } from '@config/constants';
+import { FormikHelpers, useFormik } from 'formik';
+import { FromCreateContact, validationSchemaContact } from '../../../schemas/createContactSchema';
+import { createContactAsync } from '@store/async';
 
 export const ResultTransfer = () => {
     const theme = useTheme();
@@ -18,6 +21,7 @@ export const ResultTransfer = () => {
     const { transferData, userToTransfer, status } = useSelector<RootState>((state) => state.movements) as MovementsState;
     const dispatch = useDispatch<AppDispatch>();
     const [transferState, setTransferState] = useState<boolean>(false);
+    const [addContactState, setAddContact] = useState<boolean>(false);
     const backToMoveMents = () => {
       dispatch(removeTransfer());
       navigate("/history");
@@ -26,6 +30,26 @@ export const ResultTransfer = () => {
       dispatch(removeTransfer());
       navigate("/transfer");
     };
+    const initialValues: FromCreateContact = {
+      alias: "",
+      description: "",
+      account_number: userToTransfer?.account_number || ""
+    };
+    const onSubmit = async (values: FromCreateContact, formikHelpers: FormikHelpers<FromCreateContact>) => {
+      if (isValid) {
+        formikHelpers.resetForm();
+        await dispatch(createContactAsync(values));
+        setTransferState(false);
+        setAddContact(false);
+        dispatch(removeTransfer());
+        navigate("/dashboard");
+      }
+    };
+    const { errors, touched, values, handleSubmit, handleBlur, handleChange, isValid } = useFormik<FromCreateContact>({
+      initialValues,
+      validationSchema:validationSchemaContact,
+      onSubmit
+    });
     useEffect(()=>{
       if (status === LoadingStatesEnum.SUCCEEDED) {
         setTransferState(true);
@@ -74,6 +98,46 @@ export const ResultTransfer = () => {
       <Typography textAlign={"center"} fontFamily={theme.typography.fontFamily} fontSize={"1.2rem"} className="!text-red-600">
         {transferState ? "" : "Por favor, verifique los datos e inténtelo de nuevo más tarde"}
       </Typography>
+      {
+        transferState ? 
+        <Button
+        className='!flex !w-[10vw] !my-6 !ml-6 !bg-[#085F63] !text-[white]'
+        onClick={()=>{setAddContact(true)}}
+        >Agregar a contactos
+        </Button> : 
+        <></>
+      }
+      {
+        transferState && addContactState ?
+        <>
+          <form onSubmit={handleSubmit}>
+            <TextField
+            label="Alias"
+            className="!ml-6"
+            name='alias'
+            value={values.alias}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            error={touched.alias && Boolean(errors.alias?.length)}
+            helperText={errors.alias}
+            />
+            <TextField
+            label="Descripción"
+            className="!ml-6"
+            name='description'
+            value={values.description}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            error={touched.description && Boolean(errors.description?.length)}
+            helperText={errors.description}
+            />
+            <Button className="!ml-6 !bg-[#085F63] !text-[white] !my-2" type="submit">
+              Agregar Contacto
+            </Button>
+          </form>
+        </> :
+        <></>
+      }
       <Button className="!w-[15vw] !my-6 !text-[#053436] !border-[#053436] !ml-[8vw]" variant="outlined"
       onClick={backToMoveMents}
       >
